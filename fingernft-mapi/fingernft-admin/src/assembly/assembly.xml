@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.2.0 http://maven.apache.org/xsd/assembly-2.2.0.xsd">
+
+    <id>finger-nfg-admin</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+    <includeBaseDirectory>true</includeBaseDirectory>
+
+    <fileSets>
+        <fileSet>
+            <directory>${project.build.directory}/lib</directory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+            <outputDirectory>./lib</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${build.directory}</directory>
+            <outputDirectory>boot</outputDirectory>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>${project.artifactId}-${project.version}.jar</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <lineEnding>unix</lineEnding>
+            <directory>${project.basedir}/src/main/resources</directory>
+            <includes>
+                <include>application.yml</include>
+                <include>logback-spring.xml</include>
+            </includes>
+            <outputDirectory>./config</outputDirectory>
+            <fileMode>0644</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/bin</directory>
+            <outputDirectory>/bin</outputDirectory>
+            <includes>
+                <include>run-manage.sh</include>
+                <include>restart.sh</include>
+                <include>start.sh</include>
+                <include>stop.sh</include>
+                <include>status.sh</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>${build.outputDirectory}/logs</directory>
+            <outputDirectory>logs</outputDirectory>
+            <fileMode>0644</fileMode>
+        </fileSet>
+    </fileSets>
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>./lib</outputDirectory>
+            <useProjectArtifact>false</useProjectArtifact>
+            <scope>runtime</scope>
+            <excludes></excludes>
+        </dependencySet>
+    </dependencySets>
+</assembly>

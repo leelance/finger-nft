@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: finger-nft-admin
+  messages:
+    encoding: UTF-8
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.2.39:3306/finger_nft?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&verifyServerCertificate=false&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: li123456
+    hikari:
+      minimum-idle: 6
+      maximum-pool-size: 60
+      pool-name: ad-pool
+      max-lifetime: 60000
+      connection-timeout: 60000
+
+server:
+  port: 10005
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    encoding:
+      force: true
+      charset: UTF-8
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  file:
+    name: ${spring.application.name}
+    path: logs
+  level:
+    org.springframework: info
+    com.fingerchar.admin: info
+    com.fingerchar.db: debug
+    com.fingerchar.core: info
+
