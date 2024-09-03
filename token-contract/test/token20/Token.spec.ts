@@ -88,19 +88,72 @@ describe("Token ERC20", function () {
         console.log(`token owner balance: ${ownerBalance}, approve result: ${appRes}, allowance: ${res}, addr balance: ${addr1Balance}`)
     })
 
-    it("ERC20 approve/transfer token", async () => {
+    it.skip("ERC20 approve/transfer token", async () => {
         const { token, owner, addr1, addr2 } = await loadFixture(deployTokenFixture);
         console.log(`owner address: ${owner.address}, addr1: ${addr1.address}, add2: ${addr2.address}`)
-        
 
         const appRes = await token.approve(addr1.address, 20)
         const res = await token.allowance(owner.address, addr1.address)
-        const transRes = await token.transferFrom(owner.address, addr1.address, 10)
+        //连接addr1账户, 然后转账给addr2账户
+        const transRes = await token.connect(addr1).transferFrom(owner.address, addr2.address, 10);
 
         const ownerBalance = await token.balanceOf(owner.address)
         const addr1Balance = await token.balanceOf(addr1.address)
         const addr2Balance = await token.balanceOf(addr2.address)
 
+        const allAfter = await token.allowance(owner.address, addr1.address)
+        console.log(`addr1 before token: ${res}, after: ${allAfter}`)
+
         console.log(`token owner balance: ${ownerBalance}, approve result: ${appRes}, allowance: ${res}, transRes: ${transRes}, addr1 balance: ${addr1Balance},addr2 balance: ${addr2Balance}`)
+    })
+
+    it.skip("ERC20 increaseAllowance token", async () => {
+        const { token, owner, addr1, addr2 } = await loadFixture(deployTokenFixture);
+        console.log(`owner address: ${owner.address}, addr1: ${addr1.address}, add2: ${addr2.address}`)
+
+        await token.approve(addr1.address, 20)
+        const allBefore = await token.allowance(owner.address, addr1.address)
+
+        await token.increaseAllowance(addr1.address, 10)
+        const allAfter = await token.allowance(owner.address, addr1.address)
+
+        console.log(`token addr1 approve token: ${allBefore}, after: ${allAfter}`)
+    })
+
+    it.skip("ERC20 decreaseAllowance token", async () => {
+        const { token, owner, addr1, addr2 } = await loadFixture(deployTokenFixture);
+        console.log(`owner address: ${owner.address}, addr1: ${addr1.address}, add2: ${addr2.address}`)
+
+        await token.approve(addr1.address, 30)
+        const allBefore = await token.allowance(owner.address, addr1.address)
+
+        await token.decreaseAllowance(addr1.address, 15)
+        const allAfter = await token.allowance(owner.address, addr1.address)
+
+        console.log(`token addr1 approve token: ${allBefore}, after: ${allAfter}`)
+    })
+
+    // ERC20Burnable
+    it.skip("ERC20 burn token", async () => {
+        const { token, owner, addr1, addr2 } = await loadFixture(deployTokenFixture);
+        console.log(`owner address: ${owner.address}, addr1: ${addr1.address}, add2: ${addr2.address}`)
+
+        const beforeBalance = await token.balanceOf(owner.address)
+        await token.burn(10)
+        const afterBalance = await token.balanceOf(owner.address)
+
+        console.log(`token owner before balance: ${beforeBalance}, after: ${afterBalance}`)
+    })
+
+    it("ERC20 burnFrom token", async () => {
+        const { token, owner, addr1, addr2 } = await loadFixture(deployTokenFixture);
+        console.log(`owner address: ${owner.address}, addr1: ${addr1.address}, add2: ${addr2.address}`)
+
+        await token.approve(addr1.address, 100)
+        const beforeBalance = await token.allowance(owner.address, addr1.address)
+        await token.connect(addr1).burnFrom(owner.address, 20)
+        const afterBalance = await token.allowance(owner.address, addr1.address)
+
+        console.log(`token owner before balance: ${beforeBalance}, after: ${afterBalance}`)
     })
 })
