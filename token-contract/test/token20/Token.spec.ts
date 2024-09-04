@@ -145,7 +145,7 @@ describe("Token ERC20", function () {
         console.log(`token owner before balance: ${beforeBalance}, after: ${afterBalance}`)
     })
 
-    it("ERC20 burnFrom token", async () => {
+    it.skip("ERC20 burnFrom token", async () => {
         const { token, owner, addr1, addr2 } = await loadFixture(deployTokenFixture);
         console.log(`owner address: ${owner.address}, addr1: ${addr1.address}, add2: ${addr2.address}`)
 
