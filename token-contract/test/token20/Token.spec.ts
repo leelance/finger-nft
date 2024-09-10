@@ -1,7 +1,7 @@
 import { ethers } from "hardhat"
-import type { Token__factory } from "../../types/factories/Token__factory";
-import { Token } from "../../types";
-import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
+import type { Token__factory } from "../../types/factories/Token__factory"
+import { Token } from "../../types"
+import { loadFixture } from "@nomicfoundation/hardhat-network-helpers"
 
 describe("Token ERC20", function () {
     async function deployTokenFixture() {
