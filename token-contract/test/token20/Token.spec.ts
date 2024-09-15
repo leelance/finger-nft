@@ -1,5 +1,5 @@
 import { ethers } from "hardhat"
-import type { Token__factory } from "../../types/factories/Token__factory"
+import type { Token__factory } from "../../types/factories/contracts/Token__factory"
 import { Token } from "../../types"
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers"
 

@@ -1,7 +1,5 @@
 import { ethers } from "hardhat"
-import type { Token__factory } from "../../types/factories/Token__factory"
-import { FootballPlayers, FootballPlayers__factory, Token } from "../../types"
-import { loadFixture } from "@nomicfoundation/hardhat-network-helpers"
+import { FootballPlayers, FootballPlayers__factory } from "../../types"
 
 describe("football palyers ERC721", async () => {
     let contract: FootballPlayers
@@ -24,14 +22,14 @@ describe("football palyers ERC721", async () => {
         contract = factory.attach(contractAddr) as FootballPlayers
     })
 
-    describe.skip("Deployment", async () => {
-        it("Should set the right owner", async () => {
+    describe("football palyers Deployment", async () => {
+        it.skip("Should set the right owner", async () => {
             const ctOwner = await contract.owner()
 
             console.log(`contract token owner: ${ctOwner}, owner.address: ${owner.address}`)
         })
 
-        it("Should assign the contract name and symbol correctly", async () => {
+        it.skip("Should assign the contract name and symbol correctly", async () => {
             const tokenName = await contract.name()
             const tokenSymbol = await contract.symbol()
 
@@ -39,7 +37,7 @@ describe("football palyers ERC721", async () => {
         })
     })
 
-    describe("Minting", async () => {
+    describe("football palyers Minting", async () => {
         it.skip("Should mint a new token and assign it to owner", async () => {
             const tokenId = 10000
             // 10000, 20000
@@ -50,6 +48,7 @@ describe("football palyers ERC721", async () => {
         })
 
         it("Should fail if non-owner tries to mint", async () => {
+        
             const tokenId = 10000
             const tx = await contract.connect(addr1).safeMint(addr1.address, tokenId)
 

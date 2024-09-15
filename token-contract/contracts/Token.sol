@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity ^0.8.20;
 
 import "./libs/ERC20/ERC20.sol";
 import "./libs/ERC20/extensions/ERC20Burnable.sol";
