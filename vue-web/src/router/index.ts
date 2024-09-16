@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Common from "@/views/Common";
-import NFooter from "@/views/NFooter";
-import { markRaw, toRaw } from "vue";
+import Common from "@/views/Common.vue";
+import NFooter from "@/views/NFooter.vue";
 
 import HIndex from "../views/sections/HIndex.vue";
 import NFTDetail from "../views/sections/NFTDetail.vue";
@@ -86,7 +85,7 @@ const routes = [
   {
     path: "/detail",
     component: NFooter,
-    children:[
+    children: [
       {
         path: '/detail/:ids',
         name: "detail",

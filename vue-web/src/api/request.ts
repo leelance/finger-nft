@@ -1,7 +1,7 @@
 import axios from 'axios'
 import i18n from "@/i18n/i18n";
 import router from '@/router';
-import tools from '@/util/tools.js'
+import tools from '@/util/tools'
 import store from '@/store'
 
 const service = axios.create({
@@ -17,7 +17,7 @@ service.interceptors.request.use(
         'Authorization'
       ) || ''}`;
     }
- 
+
     return config;
   },
   err => Promise.reject(err)
@@ -29,12 +29,13 @@ service.interceptors.response.use(
   response => {
     const res = response.data
     if (res.errno === 501) {
-      if(!store.state.connected){
+      console.log(`store state connected: ${store.state.connected}`)
+      if (!store.state.connected) {
         tools.message(i18n.global.t('global.needLogin'), "error");
         setTimeout(() => {
           router.push("/connect");
-        }, 1500)    
-      }else{
+        }, 1500)
+      } else {
         store.dispatch("signLogin");
       }
       return res;

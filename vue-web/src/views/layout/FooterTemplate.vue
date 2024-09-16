@@ -4,37 +4,25 @@
       <div class="main-section">
         <div class="flex1">
           <router-link to="/">
-            <img fit="contain"
-              class="logo-image"
-              :src="require('@/assets/img/logo.jpg')"
-            />
+            <img fit="contain" class="logo-image" :src="logImg" />
           </router-link>
         </div>
         <div class="navs">
-          <router-link to="/"
-            class="nav-item"
-            :class="$route.path == '/' ? 'active' : ''"
-          >
+          <router-link to="/" class="nav-item" :class="$route.path == '/' ? 'active' : ''">
             {{ $t("footer.explore") }}
           </router-link>
-          <router-link
-            v-if="connected && user.coinbase"
-            class="nav-item"
-            :class="$route.name == 'Items' ? 'active' : ''"
-            to="/items"
-          >
-            {{ $t("footer.myItems") }}</router-link
-          >
-          <router-link v-else class="nav-item"
-            to="/connect">
+          <router-link v-if="connected && user.coinbase" class="nav-item"
+            :class="$route.name == 'Items' ? 'active' : ''" to="/items">
+            {{ $t("footer.myItems") }}</router-link>
+          <router-link v-else class="nav-item" to="/connect">
             {{ $t("footer.myItems") }}
           </router-link>
           <div class="language-router">
-            <el-popover v-model:visible="languagePopover" placement="top-start" trigger="click"
-              :show-arrow="false" popper-class="footPopover">
+            <el-popover v-model:visible="languagePopover" placement="top-start" trigger="click" :show-arrow="false"
+              popper-class="footPopover">
               <template #reference>
                 <div class="nav-item flex-column">
-                  <div class="language">{{$t('footer.language')}}</div>
+                  <div class="language">{{ $t('footer.language') }}</div>
                   <div class="language-text" v-if="language != '中文'">
                     English
                     <span class="iconfont icon-arrow-right"></span>
@@ -62,12 +50,8 @@
       </div>
       <div class="last-section">
         <div class="flex1 footer-search">
-          <el-input
-            class="search-input"
-            v-model="searchKey"
-            @keyup.enter="searchClick"
-            :placeholder="$t('navigation.searchTip')"
-          >
+          <el-input class="search-input" v-model="searchKey" @keyup.enter="searchClick"
+            :placeholder="$t('navigation.searchTip')">
             <template #prefix>
               <span class="iconfont icon-search"></span>
             </template>
@@ -79,16 +63,19 @@
 </template>
 <script>
 import { ref, computed } from "vue";
+import logo from '@/assets/img/logo.jpg'
+
 export default {
   name: "FooterTemplate",
   data: function () {
     return {
       languagePopover: false,
-      searchKey: this.$route.query.keyword
+      searchKey: this.$route.query.keyword,
+      logImg: logo
     };
   },
   computed: {
-    share(){
+    share() {
       return this.$store.state.share;
     },
     connected() {
@@ -97,7 +84,7 @@ export default {
     user() {
       return this.$store.state.user;
     },
-    locale(){
+    locale() {
       return this.$i18n.locale;
     },
     language() {
@@ -148,13 +135,13 @@ export default {
       }
       this.languagePopover = false;
     },
- 
+
   },
 };
 </script>
 
 <style lang="scss">
-.footer-search{
+.footer-search {
   .search-input {
     border-radius: 15px;
     overflow: hidden;
@@ -163,15 +150,18 @@ export default {
     color: black;
     display: flex;
     align-items: center;
+
     .el-input__inner {
       padding-left: 30px !important;
       height: 100%;
       border: none;
       background: #eeeeee6e;
     }
+
     .el-input__prefix {
       line-height: 30px;
     }
+
     .iconfont {
       font-size: 22px;
       font-weight: bold;
@@ -189,14 +179,15 @@ export default {
   background-size: cover;
   color: #000;
   padding-bottom: 50px;
-  .inner{
+
+  .inner {
     display: flex;
     flex-direction: column;
     flex: 1;
   }
 }
 
-.main-section{
+.main-section {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -209,23 +200,26 @@ export default {
   margin-bottom: 10px;
   align-items: center;
 }
-.logo-image{
+
+.logo-image {
   width: 200px;
 }
 
 
-.navs{
+.navs {
   display: flex;
   flex: 1;
   justify-content: flex-end;
   align-items: flex-start;
-  .nav-item{
+
+  .nav-item {
     cursor: pointer;
     display: flex;
     font-size: 14px;
     font-weight: 400;
     margin-left: 20px;
-    &.active{
+
+    &.active {
       color: #fff;
     }
   }
@@ -238,24 +232,28 @@ export default {
   border-top: 1px solid rgba(4, 4, 5, 0.1);
   align-items: center;
 }
-.copyright{
+
+.copyright {
   display: flex;
   flex: 1;
   justify-content: flex-end;
-  .item{
+
+  .item {
     margin-left: 10px;
   }
 }
 
-.language-router{
+.language-router {
   display: flex;
   flex-direction: column;
   font-size: 14px;
   cursor: pointer;
-  .language{
+
+  .language {
     opacity: 0.7;
   }
-  .language-text{
+
+  .language-text {
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -263,7 +261,7 @@ export default {
 }
 
 .popover {
-  .popover-item{
+  .popover-item {
     display: flex;
     cursor: pointer;
     font-size: 14px;
@@ -272,7 +270,8 @@ export default {
     justify-content: space-between;
     align-items: center;
   }
-  .icon-seleted{
+
+  .icon-seleted {
     font-size: 24px;
     color: $primaryColor;
     font-weight: bold;
@@ -280,14 +279,13 @@ export default {
 }
 
 
-.footer-search{
+.footer-search {
   display: flex;
   flex: 1;
   align-items: center;
-  color: #333;;
+  color: #333;
+  ;
   font-size: 15px;
   font-weight: 900;
 }
-
-
 </style>

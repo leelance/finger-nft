@@ -1,11 +1,10 @@
 import request from "@/api/request";
 import apiList from "@/api/apiList";
 import qs from "qs";
-import store from "@/store";
 
-function getApiObj(url, data = {}) {
+function getApiObj(url: string, data = {}) {
   let apiArray = url.split(".");
-  let api = apiList;
+  let api: any = apiList;
   apiArray.forEach((v) => {
     api = api[v];
   });
@@ -13,13 +12,14 @@ function getApiObj(url, data = {}) {
 }
 
 const URL_PREFIX = "/fingernft";
-export default function api(url, data = {}) {
+
+export default function api(url: string, data = {}) {
   var api = getApiObj(url);
 
   var post = {
     url: URL_PREFIX + api.url,
     method: api.method,
-  };
+  } as any;
   if (url == "storage.upload" || url === "storage.multiupload") {
     post.headers = { "Content-Type": "multipart/form-data" };
     post.data = data;
@@ -37,5 +37,6 @@ export default function api(url, data = {}) {
   if (url == "oauth.authorize") {
     post.url = api.url;
   }
+
   return request(post);
 }

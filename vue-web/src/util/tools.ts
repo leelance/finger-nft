@@ -2,10 +2,9 @@ import { ElMessageBox, ElMessage } from "element-plus";
 import i18n from "@/i18n/i18n";
 import store from "@/store";
 import router from "@/router";
-import web3 from "@/util/web3";
 import BigNumber from "bignumber.js";
 
-const NETWORKS = {
+const NETWORKS: any = {
   "1": "Main",
   "2": "Morden",
   "3": "Ropsten",
@@ -19,13 +18,13 @@ const NETWORKS = {
   "43113": "avalanche FUJI",
   "43114": "avalanche",
 };
-const NOTIFY_TYPE = {
+const NOTIFY_TYPE: any = {
   "1": "FOLLOW",
   "2": "LIKE",
   "3": "TRADE",
 };
 
-const NOTIFY_SUB_TYPE = {
+const NOTIFY_SUB_TYPE: any = {
   "1": "SALE", // 无
   "2": "EDIT_SAlE", // 无
   "3": "CANCEL_SALE", // 自己
@@ -46,17 +45,17 @@ const NOTIFY_SUB_TYPE = {
   "18": "BIDDEN", // 买方
 };
 
-const NOTIFY_SUB_TYPE_CODE = {};
-for(var key in NOTIFY_SUB_TYPE){
+const NOTIFY_SUB_TYPE_CODE: any = {};
+for (var key in NOTIFY_SUB_TYPE) {
   NOTIFY_SUB_TYPE_CODE[NOTIFY_SUB_TYPE[key]] = key;
 }
 
-const AUCTION_STATUS = {
+const AUCTION_STATUS: any = {
   "0": "CREATED",
   "1": "FINISHED",
 };
 
-const AUCTION_STATUS_CODE = {
+const AUCTION_STATUS_CODE: any = {
   "1": "cancel",
   "2": "finished",
   "3": "expired",
@@ -65,23 +64,23 @@ const AUCTION_STATUS_CODE = {
 let messageBoxStatus = true;
 
 export default {
-  imageType(){
+  imageType() {
     return "image/jpg,image/jpeg,image/png,image/gif,image/svg,image/webp,image/avif";
   },
-  mediaType(){
+  mediaType() {
     return this.imageType() + ",audio/midi,audio/mpeg,audio/webm, audio/mp4,audio/mp3";
   },
-  getNotifyType(type) {
+  getNotifyType(type: string) {
     return NOTIFY_TYPE[type];
   },
-  getNotifySubType(subType) {
+  getNotifySubType(subType: string) {
     return NOTIFY_SUB_TYPE[subType];
   },
-  getNotitySubTypeCode(name){
+  getNotitySubTypeCode(name: any) {
     return NOTIFY_SUB_TYPE_CODE[name];
   },
-  minPriceLimit(price, paytoken) {
-    let value = new BigNumber(price);
+  minPriceLimit(price: any, paytoken: any) {
+    let value: any = new BigNumber(price);
     value = value.multipliedBy(
       new BigNumber(10).exponentiatedBy(paytoken.decimals)
     );
@@ -89,7 +88,7 @@ export default {
     if (value >= 1) return true;
     return false;
   },
-  needLogin(path) {
+  needLogin(path: string) {
     if (!store.state.connected) {
       let url = "/connect";
       if (path) url += "?redirect=" + path;
@@ -102,7 +101,7 @@ export default {
     }
     return true;
   },
-  needConnected(path) {
+  needConnected(path: string) {
     if (!store.state.connected) {
       let url = "/connect";
       if (path) url += "?redirect=" + path;
@@ -111,13 +110,13 @@ export default {
     }
     return true;
   },
-  checkResponse(response) {
+  checkResponse(response: any) {
     if (!response.errno) {
       return true;
     }
     return false;
   },
-  serializeNfts(nfts) {
+  serializeNfts(nfts: any) {
     let _nfts = [];
     for (var i = 0; i < nfts.length; i++) {
       let nft = nfts[i];
@@ -125,7 +124,7 @@ export default {
     }
     return _nfts.join(",");
   },
-  serializeNfts2(nfts) {
+  serializeNfts2(nfts: any) {
     let _nfts = [];
     for (var i = 0; i < nfts.length; i++) {
       let nft = nfts[i];
@@ -139,7 +138,7 @@ export default {
     }
     return _nfts.join(",");
   },
-  parseMetaData(content) {
+  parseMetaData(content: string) {
     if (typeof content != "string") return content;
     try {
       return JSON.parse(content);
@@ -147,7 +146,7 @@ export default {
       return {};
     }
   },
-  str2num(n) {
+  str2num(n: any) {
     var _n = parseFloat(n);
     if (isNaN(_n) || _n != n) return;
 
@@ -159,7 +158,7 @@ export default {
     }
     return _n;
   },
-  isEmpty(obj) {
+  isEmpty(obj: any) {
     if (obj == null) return true;
     if (obj.length > 0) return false;
     if (obj.length === 0) return true;
@@ -169,35 +168,38 @@ export default {
     }
     return true;
   },
-  decimal(num, v) {
+
+  decimal(num: number, v: number) {
     if (!v) v = store.state.decimal;
     var vv = Math.pow(10, v);
     return Math.round(num * vv) / vv;
   },
-  isAudioUrl(url) {
-    return [".mp3", ".wav", ".oga"].some(function(ext) {
+
+  isAudioUrl(url: string) {
+    return [".mp3", ".wav", ".oga"].some(function (ext) {
       return url.endsWith(ext);
     });
   },
-  isVideoUrl(url) {
-    return [".webm", ".mp4", ".m4v", ".ogg", ".ogv", ".mov"].some(function(
+  isVideoUrl(url: string) {
+    return [".webm", ".mp4", ".m4v", ".ogg", ".ogv", ".mov"].some(function (
       ext
     ) {
       return url.endsWith(ext);
     });
   },
-  networkName(networkId) {
+  networkName(networkId: string) {
     var name = NETWORKS[networkId];
     if (!name) {
       return "unknown network";
     }
     return name;
   },
-  delHashFormat(hash) {
+  delHashFormat(hash: string) {
     if (hash.startsWith("0x")) return hash.slice(2, hash.length);
     return hash;
   },
-  message(message, type = "") {
+
+  message(message: string, type = "") {
     ElMessage.closeAll();
 
     ElMessage({
@@ -208,7 +210,8 @@ export default {
       duration: 2000,
     });
   },
-  messageBox(title, content, confirmText = "") {
+
+  messageBox(title: string, content: string, confirmText = "") {
     if (!messageBoxStatus) return;
     messageBoxStatus = false;
     ElMessageBox.confirm(content, title, {
@@ -227,10 +230,10 @@ export default {
         messageBoxStatus = true;
       });
   },
-  time(item) {
+  time(item: any) {
     let nowTimeStamp = new Date().getTime();
     let updateTimeStamp = new Date(item.addtime).getTime();
-    let newTime = nowTimeStamp - updateTimeStamp;
+    let newTime: any = nowTimeStamp - updateTimeStamp;
     let finallyTime;
     if (newTime / 1000 / 3600 / 24 < 1) {
       if (newTime / 1000 / 3600 < 1) {
@@ -247,40 +250,41 @@ export default {
     }
     return finallyTime;
   },
-  singlePrice(price, quanlity, payToken) {
-    let value = new BigNumber(price);
+
+  singlePrice(price: any, quanlity: any, payToken: any) {
+    let value: any = new BigNumber(price);
     value = value.dividedBy(Math.pow(10, payToken?.decimals));
     value = value.dividedBy(new BigNumber(quanlity)).toFixed(6);
     value = parseFloat(value);
     return value;
   },
-  decimalsValue(value, quanlity, decimals){
+  decimalsValue(value: any, quanlity: any, decimals: any) {
     value = new BigNumber(value);
     value = value.multipliedBy(new BigNumber(quanlity)).multipliedBy(
       new BigNumber(10).exponentiatedBy(new BigNumber(decimals))
     ).toFixed();
     return value;
   },
-  noDecimalsValue(value, quanlity, decimals){
+  noDecimalsValue(value: any, quanlity: any, decimals: any) {
     value = new BigNumber(value);
     value = value.dividedBy(new BigNumber(quanlity)).dividedBy(
       new BigNumber(10).exponentiatedBy(new BigNumber(decimals))
     ).toFixed();
     return value;
   },
-  analysis(param) {
+  analysis(param: any) {
     try {
       return JSON.parse(param);
     } catch (e) {
       return {};
     }
   },
-  formatSecond(second) {
+  formatSecond(second: any) {
     var days = Math.floor(second / 86400);
-    var hours = Math.floor((second % 86400) / 3600);
+    var hours: any = Math.floor((second % 86400) / 3600);
 
-    var minutes = Math.floor(((second % 86400) % 3600) / 60);
-    var seconds = Math.floor(((second % 86400) % 3600) % 60);
+    var minutes: any = Math.floor(((second % 86400) % 3600) / 60);
+    var seconds: any = Math.floor(((second % 86400) % 3600) % 60);
     if (hours < 10) hours = "0" + hours;
     if (minutes < 10) minutes = "0" + minutes;
     if (seconds < 10) seconds = "0" + seconds;
@@ -291,7 +295,7 @@ export default {
     str = str + hours + ":" + minutes + ":" + seconds;
     return str;
   },
-  countData(leadTime) {
+  countData(leadTime: any) {
     let hours;
     let minutes;
     let seconds;

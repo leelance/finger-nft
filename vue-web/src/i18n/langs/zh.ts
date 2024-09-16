@@ -1,4 +1,4 @@
-export default {
+export const zh = {
   global: {
     notConnect: "钱包未连接",
     connect: "连接钱包?",

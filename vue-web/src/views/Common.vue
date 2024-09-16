@@ -1,11 +1,3 @@
-<template>
-  <div class="common-wraper">
-    <HeaderTemplate />
-    <div class="widClass"><router-view /></div>
-    <FooterTemplate />
-  </div>
-</template>
-
 <script>
 import HeaderTemplate from "./layout/HeaderTemplate";
 import BodyTemplate from "./layout/BodyTemplate";
@@ -27,17 +19,26 @@ export default {
   methods: {},
 };
 </script>
+<template>
+  <div class="common-wraper">
+    <HeaderTemplate />
+    <div class="widClass"><router-view /></div>
+    <FooterTemplate />
+  </div>
+</template>
 
 <style lang="scss">
 #home {
   width: 100%;
 }
+
 .common-wraper {
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .widClass {
   width: 100%;
   padding-top: 112px;

@@ -48,7 +48,6 @@ export default defineConfig(({ command, mode }: ConfigEnv) => {
         "/fingernft": {
           target: env.VITE_VUE_APP_API_URL,
           changeOrigin: true,
-          rewrite: path => path.replace(/^\/fingernft/, ''),
         },
         "/oauth": {
           target: env.VITE_VUE_APP_OAUTH_URL,

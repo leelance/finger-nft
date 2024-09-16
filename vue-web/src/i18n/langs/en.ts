@@ -1,4 +1,4 @@
-export default {
+export const en = {
   global: {
     notConnect: "Not connected Wallet",
     connect: "Connect Wallet?",
@@ -25,8 +25,7 @@ export default {
   },
   home: {
     tip1: "Open source decentralized NFT Market",
-    tip2:
-      "Technology: Spring Boot Java framework + popular front-end framework Vue",
+    tip2: "Technology: Spring Boot Java framework + popular front-end framework Vue",
     explore: "Explore",
     saleList: "Sales",
     more: "More",

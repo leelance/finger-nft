@@ -1,36 +1,36 @@
 import { createApp } from "vue";
-import App from "./App.vue";
-import router from "./router";
-import i18n from "./i18n/i18n";
-import store from "./store";
+import App from "@/App.vue";
+import router from "@/router";
+import i18n from "@/i18n/i18n";
+import store from "@/store";
 import "lib-flexible/flexible";
 import api from "@/api/index";
 import tools from "@/util/tools";
 import web3 from "@/util/web3/index";
-import NoContent from "@/components/NoContent";
-import NFTItem from "@/components/NFTItem";
-import NFTItemLoad from "@/components/loading/NFTItemLoad";
-import FollowLoad from "@/components/loading/FollowLoad";
-import LoadStatus from "@/components/LoadStatus";
-import Avatar from "@/components/Avatar";
+import NoContent from "@/components/NoContent.vue";
+import NFTItem from "@/components/NFTItem.vue";
+import NFTItemLoad from "@/components/loading/NFTItemLoad.vue";
+import FollowLoad from "@/components/loading/FollowLoad.vue";
+import LoadStatus from "@/components/LoadStatus.vue";
+import Avatar from "@/components/Avatar.vue";
 import sdk from "@/util/sdk/index";
 import Window from "@/components/Window.vue";
 
 
-import ProfilePopover from "@/components/ProfilePopover";
-import Placeholder from "@/components/Placeholder";
+import ProfilePopover from "@/components/ProfilePopover.vue";
+import Placeholder from "@/components/Placeholder.vue";
 
-import SaleDialog from "@/components/dialogs/Sale";
-import CancelSaleDialog from "@/components/dialogs/CancelSale";
-import BuyDialog from "@/components/dialogs/Buy";
+import SaleDialog from "@/components/dialogs/Sale.vue";
+import CancelSaleDialog from "@/components/dialogs/CancelSale.vue";
+import BuyDialog from "@/components/dialogs/Buy.vue";
 
-import BidDialog from "@/components/dialogs/Bid";
-import CancelBidDialog from "@/components/dialogs/CancelBid";
-import AcceptDialog from "@/components/dialogs/Accept";
+import BidDialog from "@/components/dialogs/Bid.vue";
+import CancelBidDialog from "@/components/dialogs/CancelBid.vue";
+import AcceptDialog from "@/components/dialogs/Accept.vue";
 
-import TransferDialog from "@/components/dialogs/Transfer";
-import BurnDialog from "@/components/dialogs/Burn";
-import NoFound from "@/components/NoFound";
+import TransferDialog from "@/components/dialogs/Transfer.vue";
+import BurnDialog from "@/components/dialogs/Burn.vue";
+import NoFound from "@/components/NoFound.vue";
 
 import "@/styles/myicon/iconfont.css";
 import "element-plus/dist/index.css";
@@ -46,7 +46,7 @@ import "@/styles/index.scss";
 
 import "@/assets/font/font.css";
 
-const app = createApp(App); // 创建实例
+const app = createApp(App);
 app.config.globalProperties.$web3 = web3;
 app.config.globalProperties.$api = api;
 app.config.globalProperties.$tools = tools;
@@ -77,10 +77,9 @@ app.component("placeholder", Placeholder);
 
 app.component("no-found", NoFound);
 
-app
-  .use(store)
-  .use(router)
-  .use(i18n)
-  .mount("#app");
+app.use(store);
+app.use(router);
+app.use(i18n);
+app.mount("#app");
 
 export default app;
