@@ -3,6 +3,8 @@ package com.fingerchar.core.config.properties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.time.Duration;
+
 /**
  * finger 配置
  *
@@ -20,6 +22,13 @@ public class FingerProperties {
   private String tokenSecret = "Finger-Nft-Token";
   /**
    * 跨域请求最大时间 30 days
+   * ns for nanoseconds
+   * us for microseconds
+   * ms for milliseconds
+   * s for seconds
+   * m for minutes
+   * h for hours
+   * d for days
    */
-  private long corsMaxAge = 30 * 24 * 60 * 60L;
+  private Duration corsMaxAge = Duration.ofDays(30);
 }

@@ -33,9 +33,11 @@ server:
       max: 800
       min-spare: 100
 
-mybatis:
+mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
+  global-config:
+    banner: false
 
 logging:
   file:
@@ -45,4 +47,9 @@ logging:
     org.springframework: info
     com.fingerchar.api: info
 
+# biz config
+com:
+  finger:
+    token-secret: Finger-Nft-Token
+    cors-max-age: 30d
 
