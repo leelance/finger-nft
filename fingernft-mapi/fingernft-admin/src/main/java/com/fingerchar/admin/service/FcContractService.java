@@ -87,17 +87,16 @@ public class FcContractService {
 
 
   public Object save(FcContract contract) {
-    if (hasContract(contract)) {
+    if (Boolean.TRUE.equals(hasContract(contract))) {
       return ResponseUtil.fail(-1, "已有对应的合约");
     }
-
     if (contract.getIsAdmin() && hasSystemContract(contract)) {
       return ResponseUtil.fail(-1, "系统合约已经存在");
     }
-    if (!DappWeb3jUtil.isValidAddress(contract.getAddress())) {
+    if (Boolean.FALSE.equals(DappWeb3jUtil.isValidAddress(contract.getAddress()))) {
       return ResponseUtil.fail(-1, "address is incorrect");
     }
-    if (!DappWeb3jUtil.isValidAddress(contract.getOwner())) {
+    if (Boolean.FALSE.equals(DappWeb3jUtil.isValidAddress(contract.getOwner()))) {
       return ResponseUtil.fail(-1, "owner is incorrect");
     }
 
@@ -107,17 +106,17 @@ public class FcContractService {
   }
 
   public Object update(FcContract contract) {
-    if (hasContract(contract)) {
+    if (Boolean.TRUE.equals(hasContract(contract))) {
       return ResponseUtil.fail(-1, "已有对应的合约");
     }
 
     if (contract.getIsAdmin() && hasSystemContract(contract)) {
       return ResponseUtil.fail(-1, "系统合约已经存在");
     }
-    if (!DappWeb3jUtil.isValidAddress(contract.getAddress())) {
+    if (Boolean.FALSE.equals(DappWeb3jUtil.isValidAddress(contract.getAddress()))) {
       return ResponseUtil.fail(-1, "address is incorrect");
     }
-    if (!DappWeb3jUtil.isValidAddress(contract.getOwner())) {
+    if (Boolean.FALSE.equals(DappWeb3jUtil.isValidAddress(contract.getOwner()))) {
       return ResponseUtil.fail(-1, "owner is incorrect");
     }
 

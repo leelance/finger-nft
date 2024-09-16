@@ -72,7 +72,6 @@ public class DappWeb3jUtil {
     return WalletUtils.isValidAddress(address);
   }
 
-
   public static String getErc721Uri(String token, String tokenId) {
     TransactionManager transactionManager = new ReadonlyTransactionManager(web3j, token);
     ERC721 contract721 = ERC721.load(token, web3j, transactionManager, new DefaultGasProvider());
