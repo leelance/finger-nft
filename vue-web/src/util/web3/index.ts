@@ -1,12 +1,11 @@
-import Web3 from "web3";
+import { Web3 } from "web3";
 import store from "@/store";
 import i18n from "@/i18n/i18n";
-import tools from "@/util/tools.js";
-import { removeLocalStorage } from "@/util/local-storage.js";
+import tools from "@/util/tools";
 
-const promisify = (inner) =>
+const promisify = (inner: any) =>
   new Promise((resolve, reject) =>
-    inner((err, res) => {
+    inner((err: any, res: any) => {
       if (err) {
         reject(err);
       } else {
@@ -20,9 +19,9 @@ export default {
     var error = "";
     if (window.ethereum) {
       try {
-        if(window.ethereum._state && !window.ethereum._state.initialized){
+        if (window.ethereum._state && !window.ethereum._state.initialized) {
           location.reload();
-          return { error: "ethereum is uninitialized"};
+          return { error: "ethereum is uninitialized" };
         }
         var t = await window.ethereum.request({
           method: "eth_requestAccounts",

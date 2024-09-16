@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   global: {
     notConnect: "Not connected Wallet",
     connect: "Connect Wallet?",

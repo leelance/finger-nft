@@ -1,29 +1,29 @@
 <template>
   <div>
-    <el-dialog v-if="controlWindow" v-model="controlWindow" :show-close="false" :close-on-click-modal="false"
+    <el-dialog v-if="controlWindow" :modelValue="controlWindow" :show-close="false" :close-on-click-modal="false"
       custom-class="reportWindowClass">
       <div class="reportWrapper">
         <div class="m-head">
-          <div class="m-head-title">{{bigTitle}}</div>
+          <div class="m-head-title">{{ bigTitle }}</div>
           <span @click="closeFunction" class="iconfont icon-reeor"></span>
         </div>
         <div class="m-describe">
-          {{describe}}
+          {{ describe }}
         </div>
         <div class="m-message">
-          <div class="m-message-title">{{smallTitle}}</div>
-          <el-input v-model="value" v-if="placeholder!=''" :placeholder='placeholder'></el-input>
+          <div class="m-message-title">{{ smallTitle }}</div>
+          <el-input :modelValue="value" v-if="placeholder != ''" :placeholder='placeholder'></el-input>
         </div>
-        <el-button type="primary" class="u-button">{{buttonText}}</el-button>
+        <el-button type="primary" class="u-button">{{ buttonText }}</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
 export default {
-  data:function(){
+  data: function () {
     return {
-      value:""
+      value: ""
     }
   },
   props: {
@@ -64,12 +64,14 @@ export default {
 .reportWrapper .m-head {
   display: flex;
   justify-content: space-between;
+
   span {
     cursor: pointer;
     align-self: flex-start;
     font-size: 36px;
   }
 }
+
 .reportWrapper .m-head-title {
   // width: 173px;
   font-size: 27px;
@@ -77,6 +79,7 @@ export default {
   font-weight: 400;
   color: #1d1e22;
 }
+
 .reportWrapper .m-describe {
   font-size: 11px;
   font-family: Montserrat-Regular;
@@ -85,8 +88,10 @@ export default {
   opacity: 0.6;
   margin-top: 29px;
 }
+
 .reportWrapper .m-message {
   margin-top: 33px;
+
   input {
     margin-top: 7px;
     width: 301px;
@@ -96,6 +101,7 @@ export default {
     padding-left: 10px;
     border: none;
   }
+
   input::placeholder {
     font-size: 11px;
     font-family: Montserrat-Regular;
@@ -104,12 +110,14 @@ export default {
     opacity: 0.5;
   }
 }
+
 .reportWrapper .m-message-title {
   font-size: 11px;
   font-family: Montserrat-Regular;
   font-weight: 400;
   color: #333333;
 }
+
 .reportWrapper .u-button {
   display: flex;
   justify-content: center;
@@ -124,9 +132,11 @@ export default {
   font-weight: 400;
   color: #ffffff;
 }
+
 .reportWrapper .m-message input {
   width: 100%;
 }
+
 .reportWrapper .u-button {
   width: 100%;
 }

@@ -1,10 +1,9 @@
 import utils_web3 from "@/util/web3/index";
-var Web3 = require("web3");
+import { Web3 } from "web3";
 import types from "./types";
 import utils from "./utils";
 import constants from "./constants";
-import BigNumber from "bignumber.js";
-const eth_util = require("ethereumjs-util");
+import * as eth_util from "ethereumjs-util"
 
 export default {
   async totalSupply(asset) {

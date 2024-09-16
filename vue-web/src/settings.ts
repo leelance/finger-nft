@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   pageLimit: 20,
   deploy: true,
   name: 'Finger NFT',

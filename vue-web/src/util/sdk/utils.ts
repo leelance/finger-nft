@@ -1,9 +1,7 @@
-import ethABI from 'ethereumjs-abi';
-const BN = require('bn.js');
+import * as ethABI from 'ethereumjs-abi';
+import BN from "bn.js";
 import utils_web3 from "@/util/web3/index";
-// import truffle_contract from "@truffle/contract";
 import store from "@/store";
-import constants from './constants'
 
 const SolidityTypes = {
   Address: "address",
@@ -14,21 +12,21 @@ const SolidityTypes = {
   String: "string"
 }
 
-function bigNumberToBN(value){
+function bigNumberToBN(value) {
   return new BN(value.toString(), 10);
 }
 
-const assetTypes = [0,1,2,3,4, 5]
-function isAssetTypes(assetType){
-  for(var i = 0; i < assetTypes.length; i++){
-    if(assetTypes[i] == assetType) return true;
+const assetTypes = [0, 1, 2, 3, 4, 5]
+function isAssetTypes(assetType) {
+  for (var i = 0; i < assetTypes.length; i++) {
+    if (assetTypes[i] == assetType) return true;
   }
   return false;
 }
 
-function getOrderKey(asset){
-  if(!isAssetTypes(asset.sellType)) return false;
-  if(!isAssetTypes(asset.buyType)) return false;
+function getOrderKey(asset) {
+  if (!isAssetTypes(asset.sellType)) return false;
+  if (!isAssetTypes(asset.buyType)) return false;
   let orderKey = {
     owner: asset.owner,
     salt: asset.salt,
@@ -46,9 +44,9 @@ function getOrderKey(asset){
   return orderKey;
 }
 
-function createOrder(asset){
+function createOrder(asset) {
   let orderKey = getOrderKey(asset);
-  if(!orderKey) return;
+  if (!orderKey) return;
   let order = {
     key: orderKey,
     selling: asset.sellValue,
@@ -58,7 +56,7 @@ function createOrder(asset){
   return order;
 }
 
-function tupleOrderKey(orderKey){
+function tupleOrderKey(orderKey) {
   return [
     orderKey.owner,
     orderKey.salt,
@@ -66,7 +64,7 @@ function tupleOrderKey(orderKey){
       orderKey.sellAsset.token,
       orderKey.sellAsset.tokenId,
       orderKey.sellAsset.assetType,
-    ],[
+    ], [
       orderKey.buyAsset.token,
       orderKey.buyAsset.tokenId,
       orderKey.buyAsset.assetType,
@@ -74,7 +72,7 @@ function tupleOrderKey(orderKey){
   ]
 }
 
-function tupleOrder(order){
+function tupleOrder(order) {
   return [
     tupleOrderKey(order.key),
     order.selling,
@@ -84,16 +82,16 @@ function tupleOrder(order){
 }
 
 
-function generateOrderHash(order){
+function generateOrderHash(order) {
   let sellA = [
-    {value: order.orderkey.sellAsset.token, type: SolidityTypes.Address},
-    {value: order.orderkey.sellAsset.tokenId, type: SolidityTypes.Uint},
-    {value: order.orderkey.sellAsset.assetType, type: SolidityTypes.Uint8},
+    { value: order.orderkey.sellAsset.token, type: SolidityTypes.Address },
+    { value: order.orderkey.sellAsset.tokenId, type: SolidityTypes.Uint },
+    { value: order.orderkey.sellAsset.assetType, type: SolidityTypes.Uint8 },
   ];
   let sellB = [
-    {value: order.orderkey.buyAsset.token, type: SolidityTypes.Address},
-    {value: order.orderkey.buyAsset.tokenId, type: SolidityTypes.Uint},
-    {value: order.orderkey.buyAsset.assetType, type: SolidityTypes.Uint8},
+    { value: order.orderkey.buyAsset.token, type: SolidityTypes.Address },
+    { value: order.orderkey.buyAsset.tokenId, type: SolidityTypes.Uint },
+    { value: order.orderkey.buyAsset.assetType, type: SolidityTypes.Uint8 },
   ];
   const typesA = _.map(sellA, o => o.type);
   const valuesA = _.map(sellA, o => o.value);
@@ -102,19 +100,19 @@ function generateOrderHash(order){
   const valuesB = _.map(sellB, o => o.value);
   const hashBufB = ethABI.soliditySHA3(typesB, valuesB);
   let orderKey = [
-    {value: order.orderkey.owner, type: SolidityTypes.Address},
-    {value: bigNumberToBN(order.orderkey.salt), type: SolidityTypes.Uint},
-    {value: new Buffer(hashBufA, 'hex'), type: SolidityTypes.Bytes},
-    {value: new Buffer(hashBufB, 'hex'), type: SolidityTypes.Bytes},
+    { value: order.orderkey.owner, type: SolidityTypes.Address },
+    { value: bigNumberToBN(order.orderkey.salt), type: SolidityTypes.Uint },
+    { value: new Buffer(hashBufA, 'hex'), type: SolidityTypes.Bytes },
+    { value: new Buffer(hashBufB, 'hex'), type: SolidityTypes.Bytes },
   ]
   const typesKey = _.map(orderKey, o => o.type);
   const valuesKey = _.map(orderKey, o => o.value);
   const hashBufKey = ethABI.soliditySHA3(typesKey, valuesKey);
   let _order = [
-    {value: new Buffer(hashBufKey, 'hex'), type: SolidityTypes.Bytes},
-    {value: order.selling, type: SolidityTypes.Uint},
-    {value: order.buying, type: SolidityTypes.Uint},
-    {value: order.sellerFee, type: SolidityTypes.Uint},
+    { value: new Buffer(hashBufKey, 'hex'), type: SolidityTypes.Bytes },
+    { value: order.selling, type: SolidityTypes.Uint },
+    { value: order.buying, type: SolidityTypes.Uint },
+    { value: order.sellerFee, type: SolidityTypes.Uint },
   ];
   const typesOrder = _.map(_order, o => o.type);
   const valuesOrder = _.map(_order, o => o.value);
@@ -123,9 +121,9 @@ function generateOrderHash(order){
   return eth_util.bufferToHex(hashBufOrder);
 }
 
-function contractAbi(type){
+function contractAbi(type) {
   let file = null;
-  switch(type){
+  switch (type) {
     case "ERC721":
       file = require('./abi/NFT721.json')
       break;
@@ -152,7 +150,7 @@ const calcGas = async (web3, key, args, lastArg, ts) => {
     gasTracker &&
     parseFloat(gasTracker.lastBlock) > parseFloat(lastBlock - 50)
   ) {
-    if(gasPrice < gasTracker.medium){
+    if (gasPrice < gasTracker.medium) {
       gasPrice = gasTracker.medium;
     }
   }
@@ -175,7 +173,7 @@ const calcGas = async (web3, key, args, lastArg, ts) => {
     return { error: e.message }
   });
 
-  if(gas.error) return gas;
+  if (gas.error) return gas;
 
   return {
     gasPrice,
@@ -212,7 +210,7 @@ class MyContract {
               const lastArg = args.pop();
               const ts = this.contract.methods[key](...args);
               calcGas(web3, key, args, lastArg, ts).then((res) => {
-                if(res.error){
+                if (res.error) {
                   return resolve(res);
                 }
                 var { gas, gasPrice } = res;
@@ -237,30 +235,30 @@ class MyContract {
 }
 
 
-function checkContractCode(code, address){
+function checkContractCode(code, address) {
   if (!code || code.replace("0x", "").replace(/0/g, "") === "")
-      throw new Error(
-        `This network does not have this contract at address ${address}`
-      );
+    throw new Error(
+      `This network does not have this contract at address ${address}`
+    );
 }
 
 
-async function contractAt(abi, address, onlyRead){
-    if (!store.state.connected) {
-      return {
-        error: "wallet not connected",
-      };
-    }
-    try {
-      const web3 = utils_web3.getWeb3();
-      var code = await web3.eth.getCode(address);
-      checkContractCode(code, address);
-      const contract = new web3.eth.Contract(abi.abi, address);
-      const myContract = new MyContract(contract, abi);
-      return myContract;
-    } catch (err) {
-      return { error: err };
-    }
+async function contractAt(abi, address, onlyRead) {
+  if (!store.state.connected) {
+    return {
+      error: "wallet not connected",
+    };
+  }
+  try {
+    const web3 = utils_web3.getWeb3();
+    var code = await web3.eth.getCode(address);
+    checkContractCode(code, address);
+    const contract = new web3.eth.Contract(abi.abi, address);
+    const myContract = new MyContract(contract, abi);
+    return myContract;
+  } catch (err) {
+    return { error: err };
+  }
 }
 
 

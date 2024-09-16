@@ -1,4 +1,4 @@
-import settings from "@/settings";
+import * as settings from "@/settings";
 export default {
   webLoading: false,
   currentRoute: null,

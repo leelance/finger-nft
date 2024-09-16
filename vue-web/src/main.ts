@@ -1,19 +1,19 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import i18n from "./i18n/i18n.js";
+import i18n from "./i18n/i18n";
 import store from "./store";
 import "lib-flexible/flexible";
-import api from "@/api/index.js";
-import tools from "@/util/tools.js";
-import web3 from "@/util/web3/index.js";
+import api from "@/api/index";
+import tools from "@/util/tools";
+import web3 from "@/util/web3/index";
 import NoContent from "@/components/NoContent";
 import NFTItem from "@/components/NFTItem";
 import NFTItemLoad from "@/components/loading/NFTItemLoad";
 import FollowLoad from "@/components/loading/FollowLoad";
 import LoadStatus from "@/components/LoadStatus";
 import Avatar from "@/components/Avatar";
-import sdk from "@/util/sdk/index.js";
+import sdk from "@/util/sdk/index";
 import Window from "@/components/Window.vue";
 
 

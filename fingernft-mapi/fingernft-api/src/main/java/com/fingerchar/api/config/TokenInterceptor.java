@@ -1,60 +1,63 @@
 package com.fingerchar.api.config;
 
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.fingerchar.core.constant.SysConstant;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.HandlerInterceptor;
-
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fingerchar.api.utils.JwtHelper;
 import com.fingerchar.core.base.service.IBaseService;
+import com.fingerchar.core.config.properties.FingerProperties;
+import com.fingerchar.core.constant.SysConstant;
 import com.fingerchar.core.util.ResponseUtil;
+import com.fingerchar.core.util.json.JsonUtils;
 import com.fingerchar.db.domain.FcUserToken;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Token拦截器
+ *
+ * @author admin
  */
+@Slf4j
 @Component
+@RequiredArgsConstructor
 public class TokenInterceptor implements HandlerInterceptor {
+  private final FingerProperties fingerProperties;
+  private final IBaseService baseService;
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-    
-    @Autowired
-    IBaseService baseService;
+  @Override
+  public boolean preHandle(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) throws Exception {
+    String token = request.getHeader(SysConstant.WEB_TOKEN_NAME);
+    log.info("===>请求路径, {}, token：{}", request.getRequestURL(), token);
 
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        logger.info("请求路径： {}", request.getRequestURL());
-        String token = request.getHeader(SysConstant.WEB_TOKEN_NAME);
-        logger.info("token：{}", token);
-        String userAddress = null;
-        if (StringUtils.isEmpty(token) || StringUtils.isEmpty((userAddress = JwtHelper.verifyTokenAndGetUserAddress(token)))) {
-            this.unLogin(request, response);
-            return false;
-        }
-        QueryWrapper<FcUserToken> wrapper = new QueryWrapper<>();
-        wrapper.eq(FcUserToken.USER_ADDRESS, userAddress);
-        FcUserToken userToken = this.baseService.getByCondition(FcUserToken.class, wrapper);
-        if(null == userToken || null == userToken.getUserToken() || !userToken.getUserToken().equals(token)) {
-        	this.unLogin(request, response);
-            return false;
-        }
-        request.setAttribute("userAddress", userAddress);
-        return true;
+    if (StringUtils.isEmpty(token) || StringUtils.isEmpty((JwtHelper.verifyTokenAndGetUserAddress(token, fingerProperties.getTokenSecret())))) {
+      this.unLogin(response);
+      return false;
     }
 
-    private void unLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Object obj = ResponseUtil.unlogin();
-        response.setCharacterEncoding("utf-8");
-        response.setContentType("application/json");
-        response.getWriter().write(JSON.toJSONString(obj));
+    String userAddress = JwtHelper.verifyTokenAndGetUserAddress(token, fingerProperties.getTokenSecret());
+    QueryWrapper<FcUserToken> wrapper = new QueryWrapper<>();
+    wrapper.eq(FcUserToken.USER_ADDRESS, userAddress);
+    FcUserToken userToken = this.baseService.getByCondition(FcUserToken.class, wrapper);
+    if (null == userToken || null == userToken.getUserToken() || !userToken.getUserToken().equals(token)) {
+      this.unLogin(response);
+      return false;
     }
+    request.setAttribute("userAddress", userAddress);
+    return true;
+  }
+
+  private void unLogin(HttpServletResponse response) throws IOException {
+    Object obj = ResponseUtil.unlogin();
+    response.setCharacterEncoding("utf-8");
+    response.setContentType("application/json");
+    response.getWriter().write(JsonUtils.toJsonString(obj));
+  }
 }
