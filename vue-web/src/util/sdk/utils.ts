@@ -117,7 +117,7 @@ function generateOrderHash(order) {
   const typesOrder = _.map(_order, o => o.type);
   const valuesOrder = _.map(_order, o => o.value);
   const hashBufOrder = ethABI.soliditySHA3(typesOrder, valuesOrder);
-  var eth_util = require("ethereumjs-util");
+  var eth_util = import("ethereumjs-util");
   return eth_util.bufferToHex(hashBufOrder);
 }
 
@@ -125,16 +125,16 @@ function contractAbi(type) {
   let file = null;
   switch (type) {
     case "ERC721":
-      file = require('./abi/NFT721.json')
+      file = import('./abi/NFT721.json')
       break;
     case "ERC20":
-      file = require("./abi/IERC20.json")
+      file = import("./abi/IERC20.json")
       break;
     case "EXCHANGE":
-      file = require("./abi/NftExchange.json");
+      file = import("./abi/NftExchange.json");
       break;
     case "NFT":
-      file = require("./abi/NFT.json");
+      file = import("./abi/NFT.json");
       break;
   }
   return file || {};

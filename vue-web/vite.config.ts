@@ -19,7 +19,6 @@ export default defineConfig(({ command, mode }: ConfigEnv) => {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.vue'],
       alias: {
         '@': resolve('src'),
-        web3: resolve('node_modules/web3/dist/web3.min.js')
       },
     },
     build: {

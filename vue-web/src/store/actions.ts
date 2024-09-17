@@ -1,9 +1,9 @@
-import tools from "@/util/tools.js";
+import tools from "@/util/tools";
 import i18n from "@/i18n/i18n";
-import api from "@/api/index.js";
-import sdk from "@/util/sdk/index.js";
-import util_web3 from "@/util/web3/index.js";
-import { getLocalStorage, removeLocalStorage } from "@/util/local-storage.js";
+import api from "@/api/index";
+import sdk from "@/util/sdk/index";
+import util_web3 from "@/util/web3/index";
+import { getLocalStorage, removeLocalStorage } from "@/util/local-storage";
 import BigNumber from "bignumber.js";
 
 function getActiveNetwork(result, networks) {
@@ -29,7 +29,7 @@ export default {
       });
     });
   },
-  gasTracker({state, commit}){
+  gasTracker({ state, commit }) {
     return new Promise((resolve, reject) => {
       api("config.gasTracker").then((res) => {
         if (tools.checkResponse(res)) {
@@ -40,11 +40,11 @@ export default {
     });
   },
   reload({ state, commit, dispatch }) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       var items = getLocalStorage("Authorization");
       if (items.Authorization) {
         api("user.reload")
-          .then(async function(response) {
+          .then(async function (response) {
             if (tools.checkResponse(response)) {
               if (
                 state.user.coinbase !=
@@ -108,7 +108,7 @@ export default {
     });
   },
   unreadNotice({ state, commit, getters }) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       api("notice.unread").then((res) => {
         if (tools.checkResponse(res)) {
           commit("NOTICE_UNREAD", res.data);
@@ -117,7 +117,7 @@ export default {
     });
   },
   allBalance({ state, commit, getters, dispatch }) {
-    return new Promise(async function(resolve, reject) {
+    return new Promise(async function (resolve, reject) {
       for (var i = 0; i < state.payTokens.length; i++) {
         let token = state.payTokens[i];
         if (token.address == sdk.NULL_ADDRESS()) {
@@ -129,7 +129,7 @@ export default {
     });
   },
   ethBalance({ state, commit, getters }) {
-    return new Promise(async function(resolve, reject) {
+    return new Promise(async function (resolve, reject) {
       let asset = {
         address: sdk.NULL_ADDRESS(),
       };
@@ -142,7 +142,7 @@ export default {
     });
   },
   erc20Balance({ state, commit, getters }, payToken) {
-    return new Promise(async function(resolve, reject) {
+    return new Promise(async function (resolve, reject) {
       let asset = {
         address: payToken.address,
       };
@@ -191,13 +191,13 @@ export default {
     });
   },
   monitorWeb3({ state, commit, dispatch }) {
-    return new Promise(async function(resolve, reject) {
+    return new Promise(async function (resolve, reject) {
       await util_web3.monitorWeb3();
       resolve();
     });
   },
   connect({ state, commit, dispatch }, isInit) {
-    return new Promise(async function(resolve, reject) {
+    return new Promise(async function (resolve, reject) {
       var result = await util_web3.connectWallet();
       if (result.error) {
         if (!isInit) {
@@ -212,7 +212,7 @@ export default {
     });
   },
   signLogin({ state, commit, dispatch }, payload) {
-    return new Promise(async function(resolve, reject) {
+    return new Promise(async function (resolve, reject) {
       let user = payload;
       if (!user || !user.coinbase) user = state.user;
 
@@ -239,8 +239,8 @@ export default {
       });
     });
   },
-  connectAndSign({ state, commit, dispatch }, type) {
-    return new Promise(async function(resolve, reject) {
+  connectAndSign({ state, commit, dispatch }, type: string) {
+    return new Promise(async function (resolve, reject) {
       let result = await util_web3.connectWallet(type);
       if (result.error) {
         tools.message(result.error);
@@ -257,7 +257,7 @@ export default {
     });
   },
   countNotices({ state, commit }) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       if (!state.connected) resolve();
       let data = {
         address: state.user.coinbase,
@@ -271,7 +271,7 @@ export default {
     });
   },
   unreadNoticeByAddress({ state, commit }) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       let data = {
         address: state.user.coinbase,
       };

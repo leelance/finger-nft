@@ -39,12 +39,12 @@ import { VueClipboard } from "@soerenmartius/vue3-clipboard";
 import * as filters from "@/filters";
 
 import ElementPlus from "element-plus";
-import "./permission";
-import "../theme/index.css";
 
-import "@/styles/index.scss";
+import "./permission"
 
-import "@/assets/font/font.css";
+import "@/styles/index.scss"
+import 'element-plus/dist/index.css'
+import "@/assets/font/font.css"
 
 const app = createApp(App);
 app.config.globalProperties.$web3 = web3;

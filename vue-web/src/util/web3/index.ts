@@ -1,7 +1,7 @@
-import { Web3 } from "web3";
-import store from "@/store";
-import i18n from "@/i18n/i18n";
-import tools from "@/util/tools";
+import { Web3 } from 'web3'
+import store from "@/store"
+import i18n from "@/i18n/i18n"
+import tools from "@/util/tools"
 
 const promisify = (inner: any) =>
   new Promise((resolve, reject) =>
@@ -19,10 +19,6 @@ export default {
     var error = "";
     if (window.ethereum) {
       try {
-        if (window.ethereum._state && !window.ethereum._state.initialized) {
-          location.reload();
-          return { error: "ethereum is uninitialized" };
-        }
         var t = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
@@ -30,17 +26,22 @@ export default {
           error = "MetaMask enable Error";
           return { error };
         }
-        var web3 = new Web3(window.ethereum);
+
+        const web3 = new Web3(window.ethereum);
+        console.log(web3, ', web3j')
+
         window.wallet = web3;
-        var networkId = await promisify((cb) => web3.eth.getChainId(cb));
-        var coinbase = await promisify((cb) => web3.eth.getCoinbase(cb));
+        const networkId = await web3.eth.getChainId();
+        const coinbase = await web3.eth.getCoinbase();
+
+        console.log(`===>networkId: ${networkId}, coinbase: ${coinbase}`)
 
         window.ethereum.once("accountsChanged", this.accountsChanged);
         window.ethereum.on("chainChanged", this.chainChanged);
         window.ethereum.on("disconnect", this.disconnect);
         let walletType = "metamask";
         return { networkId, coinbase, walletType };
-      } catch (e) {
+      } catch (e: any) {
         error = e.message;
       }
     } else {
@@ -48,9 +49,11 @@ export default {
     }
     return { error };
   },
-  async connectWallet(type) {
+
+  async connectWallet(type: string) {
     return await this.connectWeb3();
   },
+
   accountsChanged(accounts) {
     if (!store.state.connected) return;
     store.dispatch("logout");
@@ -58,6 +61,7 @@ export default {
       store.dispatch("connect");
     }
   },
+
   chainChanged(channelId) {
     let network = store.state.config.network;
     if (parseInt(channelId) != parseInt(network.chainId)) {
@@ -67,6 +71,7 @@ export default {
       );
     }
   },
+
   disconnect(error) {
     if (!store.state.connected) return;
     store.dispatch("logout");
@@ -77,6 +82,7 @@ export default {
       }
     }
   },
+
   async getTransaction(tx) {
     let web3 = this.getWeb3();
     try {
@@ -85,6 +91,7 @@ export default {
       return { error: e.message };
     }
   },
+
   async getTransactionReceipt(tx) {
     let web3 = this.getWeb3();
     try {
@@ -93,6 +100,7 @@ export default {
       return { error: e.message };
     }
   },
+
   async decodeLog(inputs, hexString, options) {
     let web3 = this.getWeb3();
     try {

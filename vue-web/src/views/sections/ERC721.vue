@@ -11,7 +11,7 @@
                 <span class="text">{{ $t("erc721.goBack") }}</span>
               </div>
             </div>
-            <div class="title">{{ $t("erc721.title") }}</div>
+            <div class="header">{{ $t("erc721.title") }}</div>
 
             <el-form :model="createForm" class="create-form" label-position="top">
               <el-form-item :class="['upload-file', { err: errorForm.file }]">
@@ -131,7 +131,7 @@
                     <div class="collection-inner">
                       <div class="sync" v-if="!collection.isSync"></div>
                       <div class="cover">
-                        <el-image class="cover-image" :src="collection.cover ? collection.cover : require('@/assets/img/DETH.png')"></el-image>
+                        <el-image class="cover-image" :src="collection.cover ? collection.cover : deth"></el-image>
                       </div>
                       <div class="a">{{ collection.name }}</div>
                       <div class="b">(ERC-721)</div>
@@ -258,8 +258,10 @@
 
 </template>
 <script>
-  import MintDialog from "@/components/dialogs/Mint";
-  import BigNumber from "bignumber.js";
+  import MintDialog from "@/components/dialogs/Mint"
+  import BigNumber from "bignumber.js"
+  import DETH from '@/assets/img/DETH.png'
+ 
   export default {
     name: "ERC721",
     components: {
@@ -303,6 +305,7 @@
         nft: {},
         showMint: false,
         animFile: null,
+        deth: DETH
       };
     },
     created () {
@@ -566,7 +569,7 @@
       height: 60%;
     }
   }
-  .title {
+  .header {
     font-size: 24px;
     font-weight: bold;
     color: #333;
