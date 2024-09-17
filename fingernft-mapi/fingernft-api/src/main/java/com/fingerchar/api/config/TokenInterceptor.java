@@ -35,7 +35,9 @@ public class TokenInterceptor implements HandlerInterceptor {
   @Override
   public boolean preHandle(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) throws Exception {
     String token = request.getHeader(SysConstant.WEB_TOKEN_NAME);
-    log.info("===>请求路径, {}, token：{}", request.getRequestURL(), token);
+    if(log.isDebugEnabled()){
+      log.debug("===>web token, {}, token：{}", request.getRequestURL(), token);
+    }
 
     if (StringUtils.isEmpty(token) || StringUtils.isEmpty((JwtHelper.verifyTokenAndGetUserAddress(token, fingerProperties.getTokenSecret())))) {
       this.unLogin(response);

@@ -29,7 +29,9 @@ public class OptionalTokenInterceptor implements HandlerInterceptor {
 
   @Override
   public boolean preHandle(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) throws Exception {
-    log.info("请求路径： {}", request.getRequestURL());
+    if (log.isDebugEnabled()) {
+      log.debug("===>web request: {}", request.getRequestURL());
+    }
 
     String token = request.getHeader("Finger-Nft-Token");
 

@@ -13,10 +13,10 @@ import lombok.EqualsAndHashCode;
  * @since 2024/9/17 8:03
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @TableName("fc_contract")
+@EqualsAndHashCode(callSuper = true)
 public class FcContract extends BaseEntity {
-  
+
   /**
    * nft name
    */
