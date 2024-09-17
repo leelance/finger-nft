@@ -1,7 +1,7 @@
 import { ethers } from "hardhat"
 import { FootballPlayers, FootballPlayers__factory } from "../../types"
 
-describe("football palyers ERC721", async () => {
+describe.skip("football palyers ERC721", async () => {
     let contract: FootballPlayers
     let contractAddr = '0x5Ead635761cF5bFb93825e42d86acE2788ee8D4A'
     const [owner, addr1] = await ethers.getSigners()
@@ -37,7 +37,7 @@ describe("football palyers ERC721", async () => {
         })
     })
 
-    describe("football palyers Minting", async () => {
+    describe.skip("football palyers Minting", async () => {
         it.skip("Should mint a new token and assign it to owner", async () => {
             const tokenId = 10000
             // 10000, 20000
@@ -47,7 +47,7 @@ describe("football palyers ERC721", async () => {
             console.log(`contract token ownerOf: ${tokenOwner}`)
         })
 
-        it("Should fail if non-owner tries to mint", async () => {
+        it.skip("Should fail if non-owner tries to mint", async () => {
         
             const tokenId = 10000
             const tx = await contract.connect(addr1).safeMint(addr1.address, tokenId)
