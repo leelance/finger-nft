@@ -49,7 +49,7 @@ public class ScheduleTask {
   /**
    * start sync block
    */
-  //@Scheduled(cron = "0 */30 * * * ?")
+  @Scheduled(cron = "0 */30 * * * ?")
   public void syncEthLastBlock() {
     if (SYNC_BLOCK.compareAndSet(true, false)) {
       log.info("task is in processing status");
@@ -95,7 +95,7 @@ public class ScheduleTask {
   }
 
   @SuppressWarnings("all")
-  //@Scheduled(cron = "* 0/30 * * * ?")
+  @Scheduled(cron = "* 0/20 * * * ?")
   private void startGasTracker() {
     try {
       BigInteger lastBlock = DappWeb3jUtil.getLastBlock();
