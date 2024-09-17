@@ -14,7 +14,7 @@ export default {
   },
   async mintToken(owner, asset) {
     asset.type = 3;
-    asset = this.getFullAsset(asset);
+    asset = await this.getFullAsset(asset);
     let contract = await this.getAssetContract(asset);
 
     if (contract.error) return contract;
@@ -32,21 +32,25 @@ export default {
       return { error: e.message };
     }
   },
-  async isApprovedForAll(asset, owner, operator) {
+
+  async isApprovedForAll(asset: any, owner: any, operator: any) {
     asset.type = 3;
-    asset = this.getFullAsset(asset);
-    let contract = await this.getAssetContract(asset);
+    asset = await this.getFullAsset(asset);
+    
+    let contract: any = await this.getAssetContract(asset);
     if (contract.error) return contract;
 
     try {
       return await contract.isApprovedForAll(owner, operator);
-    } catch (e) {
+    } catch (e: any) {
+      console.log(e, 'xxxxxxxxxxxxxxxxx')
       return { error: e.message };
     }
   },
+
   async setApprovalForAll(asset, coinbase, operator, approved) {
     asset.type = 3;
-    asset = this.getFullAsset(asset);
+    asset = await this.getFullAsset(asset);
     let contract = await this.getAssetContract(asset);
     if (contract.error) return contract;
 
@@ -58,12 +62,13 @@ export default {
       return { error: e.message };
     }
   },
-  getFullAsset(asset) {
+  async getFullAsset(asset: any) {
     let type = types.keyAssetType(asset.type);
-    let abi = utils.contractAbi(type);
+    let abi = await utils.contractAbi(type);
     asset.abi = abi;
     return asset;
   },
+
   async getBalance(asset, owner) {
     var web3 = await utils_web3.getWeb3();
     try {
@@ -72,7 +77,7 @@ export default {
         return web3.utils.fromWei(balance.toString(), "ether");
       } else {
         asset.type = types.valueAssetType("ERC20");
-        asset = this.getFullAsset(asset);
+        asset = await this.getFullAsset(asset);
         let contract = await this.getAssetContract(asset);
         if (contract.error) return contract;
         return await contract.balanceOf(owner);
@@ -81,13 +86,15 @@ export default {
       return { error: e.message };
     }
   },
-  async getAssetContract(asset) {
+
+  async getAssetContract(asset: any) {
     asset.contractAddress = asset.address;
     return await utils.contractAt(asset.abi, asset.contractAddress);
   },
+
   async transferAsset(asset, from, to) {
     asset.type = 3;
-    asset = this.getFullAsset(asset);
+    asset = await this.getFullAsset(asset);
     let contract = await this.getAssetContract(asset);
     if (contract.error) return contract;
     try {
@@ -100,7 +107,7 @@ export default {
   },
   async burnAsset(asset) {
     asset.type = 3;
-    asset = this.getFullAsset(asset);
+    asset = await this.getFullAsset(asset);
     let contract = await this.getAssetContract(asset);
     if (contract.error) return contract;
 
@@ -155,7 +162,7 @@ export default {
     return await utils.contractAt(abi, asset.contractAddress);
   },
   async allowancePayToken(asset, owner, spender) {
-    asset = this.getFullAsset(asset);
+    asset = await this.getFullAsset(asset);
     let contract = await this.getAssetContract(asset);
     if (contract.error) return contract;
     try {
@@ -165,7 +172,7 @@ export default {
     }
   },
   async approvePayToken(asset, owner, spender) {
-    asset = this.getFullAsset(asset);
+    asset = await this.getFullAsset(asset);
     let contract = await this.getAssetContract(asset);
     if (contract.error) return contract;
     try {

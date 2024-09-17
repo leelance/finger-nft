@@ -242,16 +242,16 @@ function checkContractCode(code, address) {
     );
 }
 
-
-async function contractAt(abi, address, onlyRead) {
+async function contractAt(abi: any, address: string) {
   if (!store.state.connected) {
     return {
       error: "wallet not connected",
     };
   }
+
   try {
     const web3 = utils_web3.getWeb3();
-    var code = await web3.eth.getCode(address);
+    var code = await web3?.eth.getCode(address);
     checkContractCode(code, address);
     const contract = new web3.eth.Contract(abi.abi, address);
     const myContract = new MyContract(contract, abi);

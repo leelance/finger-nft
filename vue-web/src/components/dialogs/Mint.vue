@@ -192,6 +192,7 @@
           this.storeAsset = asset;
         }
       },
+      
       async start () {
         this.asset = this.nft.contract;
         if (this.nft.form.onSale) {
@@ -200,6 +201,7 @@
           await this.fileUp();
         }
       },
+
       async onApprove () {
         if (!this.nft.form.onSale) return;
         this.step.approve = 1;
@@ -214,6 +216,7 @@
         this.error.approve = "";
         this.step.approve = 2;
       },
+
       async onMint () {
         let asset = this.storeAsset;
         this.step.mint = 1;
@@ -268,12 +271,14 @@
           fileUp: "",
         };
       },
+
       async setApproveAll (asset) {
         let isApproved = await this.$sdk.isApprovedForAll(
           asset,
           this.user.coinbase,
           this.config.contract.transferProxyAddress,
         );
+        
         if (typeof isApproved == "object" && isApproved.error) {
           return isApproved;
         }
@@ -286,6 +291,7 @@
         );
         return result;
       },
+
       async uploadStorage (file) {
         return new Promise((resolve, reject) => {
           const formData = new FormData();

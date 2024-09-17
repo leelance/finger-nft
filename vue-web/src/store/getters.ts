@@ -17,6 +17,7 @@ export default {
       }
     }
   },
+
   defaultSalePayToken: (state) => () => {
     if(!state.payTokens.length) return;
     let paytoken = state.defalutPayToken;
@@ -28,6 +29,7 @@ export default {
     if(_paytokens.length) return _paytokens[0];
     return paytokens[0];
   },
+  
   defaultBidPayToken: (state) => () => {
     let paytoken = state.defalutPayToken;
     if(paytoken && paytoken.erc20) return paytoken;

@@ -12,9 +12,14 @@ import "../libs/utils/Ownable.sol";
  * @dev anyone can mint token.
  */
 contract NFT721 is Ownable, SignerRole, IERC721, ERC721Base {
-
-    constructor (string memory name, string memory symbol, address signer, string memory contractURI, string memory tokenURIPrefix) ERC721Base(name, symbol, contractURI, tokenURIPrefix) {
-        _registerInterface(bytes4(keccak256('MINT_WITH_ADDRESS')));
+    constructor(
+        string memory name,
+        string memory symbol,
+        address signer,
+        string memory contractURI,
+        string memory tokenURIPrefix
+    ) ERC721Base(name, symbol, contractURI, tokenURIPrefix) {
+        _registerInterface(bytes4(keccak256("MINT_WITH_ADDRESS")));
         _addSigner(signer);
         // transferOwnership(newOwner);
     }
@@ -28,7 +33,19 @@ contract NFT721 is Ownable, SignerRole, IERC721, ERC721Base {
     }
 
     function mint(uint256 tokenId, uint8 v, bytes32 r, bytes32 s, Fee[] memory _fees, string memory tokenURI) public {
-        require(isSigner(ecrecover(keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", keccak256(abi.encodePacked(this, tokenId)))), v, r, s)), "owner should sign tokenId");
+        require(
+            isSigner(
+                ecrecover(
+                    keccak256(
+                        abi.encodePacked("\x19Ethereum Signed Message:\n32", keccak256(abi.encodePacked(this, tokenId)))
+                    ),
+                    v,
+                    r,
+                    s
+                )
+            ),
+            "owner should sign tokenId"
+        );
         _mint(msg.sender, tokenId, _fees);
         _setTokenURI(tokenId, tokenURI);
     }

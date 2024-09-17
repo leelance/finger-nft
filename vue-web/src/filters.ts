@@ -1,9 +1,15 @@
 import store from "@/store";
 import i18n from "@/i18n/i18n";
 
-const isAbsoluteURL = (str) => /^[a-z][a-z0-9+.-]*:/.test(str);
+const isAbsoluteURL = (str: string) => /^[a-z][a-z0-9+.-]*:/.test(str);
 
-export function fullImageUrl(url) {
+/**
+ * 解析https://xx or ipfs:/xx or /xx
+ * 
+ * @param url 图片路径
+ * @returns image path
+ */
+export function fullImageUrl(url: string) {
   if (!url) return "";
   if (url.toLowerCase().startsWith("ipfs:/")) {
     let urlArr = url.split("/");
@@ -15,6 +21,12 @@ export function fullImageUrl(url) {
     }
     return store.state.config.ipfsUrl + "/" + url;
   }
+
+  // http
+  if (url.toLowerCase().startsWith("http://") || url.toLowerCase().startsWith("https://")) {
+    return url;
+  }
+
   // not ipfs url
   if (isAbsoluteURL(url)) {
     return url;

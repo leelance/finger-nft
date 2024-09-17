@@ -4,25 +4,24 @@ import { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers"
 
 describe.only("NFT ERC721", () => {
   let contract: NFT721
-  let contractAddr = '0x5Ead635761cF5bFb93825e42d86acE2788ee8D4A'
+  let contractAddr = '0xA5962D82781Ef9B0fFa266B740b75A123DE27ACd'
   let owner: HardhatEthersSigner
   let addr1: HardhatEthersSigner
   let addr2: HardhatEthersSigner
 
-  //const [owner, addr1] = await ethers.getSigners()
   beforeEach(async () => {
     [owner, addr1, addr2] = await ethers.getSigners()
   })
 
-  it('xxx', async () => {
+  it('init hardhat default address', async () => {
     console.log(`owner: ${owner.address}, addr1: ${addr1.address}, addr2: ${addr2.address}`)
   })
 
-  it.skip("NFT ERC721 deploy contract", async () => {
+  it("NFT ERC721 deploy contract", async () => {
     console.log(`Deploying contracts with the account: ${owner.address}`)
-    const name = 'Sheep';
+    const name = 'Sheep1';
     const symbol = 'lee';
-    const signer = owner.address;
+    const signer = addr1.address;
     const contractURI = '';
     const tokenURIPrefix = '';
 
@@ -30,7 +29,7 @@ describe.only("NFT ERC721", () => {
     const token: NFT721 = (await tokenFactory.deploy(name, symbol, signer, contractURI, tokenURIPrefix)) as NFT721
     const tokenAddress = await token.getAddress()
 
-    //owner address: 0x811bB0C5EB3664D7bB167Ebc1cD77322586B7f89 
+    //owner address: 0xA5962D82781Ef9B0fFa266B740b75A123DE27ACd 
     console.log(`Deploying contracts with the account: ${owner.address}, contract address: ${tokenAddress}, token owner address: ${owner.address}`)
   })
 })

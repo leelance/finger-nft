@@ -114,33 +114,37 @@ export default {
   getWeb3() {
     return window.wallet;
   },
-  async loginWallet(address) {
-    let timestamp = parseInt(new Date().getTime() / 1000);
+
+  async loginWallet(address: string) {
+    const timestamp = Math.round(new Date().getTime() / 1000)
     var message = store.state.config.loginMessage + " " + timestamp;
     try {
-      let signature = await this.sign(message, address);
+      const signature: any = await this.sign(message, address);
       if (signature.error) return signature;
 
       return {
         signature: signature,
         timestamp: timestamp,
       };
-    } catch (e) {
+    } catch (e: any) {
       return { error: e.message };
     }
   },
-  async sign(message, address) {
-    var web3 = window.wallet;
+
+  async sign(message: string, address: string) {
+    const web3 = window.wallet;
     try {
-      address = web3.utils.toChecksumAddress(address);
-      var signature = await promisify((cb) =>
-        web3.eth.personal.sign(message, address, cb)
-      );
-      return signature;
-    } catch (e) {
+      const checkAddress = web3?.utils.toChecksumAddress(address)
+      if (checkAddress == undefined) {
+        return { error: 'address check fail.' };
+      }
+
+      return await web3?.eth.personal.sign(message, checkAddress, '123456');
+    } catch (e: any) {
       return { error: e.message };
     }
   },
+
   checkWeb3() {
     return window.ethereum && window.ethereum.isConnected();
   },

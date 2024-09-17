@@ -211,6 +211,7 @@ export default {
       resolve(true);
     });
   },
+
   signLogin({ state, commit, dispatch }, payload) {
     return new Promise(async function (resolve, reject) {
       let user = payload;
@@ -239,6 +240,7 @@ export default {
       });
     });
   },
+
   connectAndSign({ state, commit, dispatch }, type: string) {
     return new Promise(async function (resolve, reject) {
       let result = await util_web3.connectWallet(type);

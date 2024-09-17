@@ -96,6 +96,7 @@
 			goBack () {
 				this.$router.go(-1);
 			},
+			
 			async updateImage () {
 				if (!this.imageFile) {
 					this.UpdateProfile();
@@ -113,6 +114,7 @@
 					});
 				}
 			},
+
 			UpdateProfile () {
 				let temporary = {
 					address: this.address,

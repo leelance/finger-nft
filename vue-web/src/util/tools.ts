@@ -88,6 +88,7 @@ export default {
     if (value >= 1) return true;
     return false;
   },
+
   needLogin(path: string) {
     if (!store.state.connected) {
       let url = "/connect";
@@ -95,12 +96,14 @@ export default {
       router.push(url);
       return false;
     }
+
     if (!store.state.isLogin) {
       store.dispatch("signLogin");
       return false;
     }
     return true;
   },
+
   needConnected(path: string) {
     if (!store.state.connected) {
       let url = "/connect";
