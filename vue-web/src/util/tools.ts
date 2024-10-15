@@ -113,12 +113,14 @@ export default {
     }
     return true;
   },
+  
   checkResponse(response: any) {
     if (!response.errno) {
       return true;
     }
     return false;
   },
+
   serializeNfts(nfts: any) {
     let _nfts = [];
     for (var i = 0; i < nfts.length; i++) {
@@ -149,6 +151,7 @@ export default {
       return {};
     }
   },
+
   str2num(n: any) {
     var _n = parseFloat(n);
     if (isNaN(_n) || _n != n) return;
@@ -161,6 +164,7 @@ export default {
     }
     return _n;
   },
+
   isEmpty(obj: any) {
     if (obj == null) return true;
     if (obj.length > 0) return false;
@@ -172,7 +176,7 @@ export default {
     return true;
   },
 
-  decimal(num: number, v: number) {
+  decimal(num: any, v: any) {
     if (!v) v = store.state.decimal;
     var vv = Math.pow(10, v);
     return Math.round(num * vv) / vv;

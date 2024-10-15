@@ -16,6 +16,8 @@ public class LanceTestSource {
     FcStorage s = new FcStorage();
     s.setId(1000L);
     s.setUrl("https://raw.seadn.io/files/c898fd8aa8820e5b6a7af258626731d7.svg");
+    s.setIpfshash("ipfs");
+    s.setKey("1000");
     return s;
   }
 }

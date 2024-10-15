@@ -524,9 +524,7 @@ export default {
         return;
       }
 
-      console.log(this.createForm)
-
-      var royalties = this.createForm.royalties;
+      let royalties = this.createForm.royalties;
       royalties = this.$tools.str2num(royalties);
       royalties = !royalties ? 0 : royalties;
       if (royalties > 10) {
@@ -548,7 +546,7 @@ export default {
       };
       let that = this;
       this.showMint = true;
-      
+
       setTimeout(async function () {
         await that.$refs.mintDialog.start();
       }, 100);

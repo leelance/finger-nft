@@ -111,6 +111,7 @@ export default {
       return { error: e.message };
     }
   },
+  
   getWeb3() {
     return window.wallet;
   },

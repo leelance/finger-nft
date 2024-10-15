@@ -39,5 +39,5 @@ export default {
   payTokens: [],
   defalutPayToken: null,
   categorys: [],
-  ...settings,
+  ...settings.default,
 };

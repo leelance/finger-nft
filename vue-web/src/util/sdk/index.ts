@@ -12,11 +12,14 @@ export default {
     if (contract.error) return contract;
     return await contract.totalSupply();
   },
-  async mintToken(owner, asset) {
-    asset.type = 3;
-    asset = await this.getFullAsset(asset);
-    let contract = await this.getAssetContract(asset);
 
+  async mintToken(owner: string, asset: any) {
+    asset.type = 3
+    asset = await this.getFullAsset(asset)
+    console.log(asset, 'asset........................')
+    let contract: any = await this.getAssetContract(asset)
+
+    console.log(contract, 'asset........................')
     if (contract.error) return contract;
     try {
       return await contract.mint(
@@ -28,7 +31,8 @@ export default {
         asset.tokenURI,
         { from: owner }
       );
-    } catch (e) {
+    } catch (e: any) {
+      console.log(e, ',mintToken...')
       return { error: e.message };
     }
   },
@@ -36,7 +40,7 @@ export default {
   async isApprovedForAll(asset: any, owner: any, operator: any) {
     asset.type = 3;
     asset = await this.getFullAsset(asset);
-    
+
     let contract: any = await this.getAssetContract(asset);
     if (contract.error) return contract;
 

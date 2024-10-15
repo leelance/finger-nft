@@ -221,6 +221,7 @@
         let asset = this.storeAsset;
         this.step.mint = 1;
         let result = await this.mintToken(asset);
+        console.log(result, 'onmint........................')
         if (result.error) {
           this.error.mint = result.error;
           this.step.mint = 0;
@@ -233,6 +234,7 @@
           this.confirm({});
         }
       },
+
       async onSale () {
         if (!this.nft.form.onSale) return;
         this.step.sale = 1;
@@ -308,6 +310,7 @@
           });
         });
       },
+
       async multiUploadStorage (files) {
         return new Promise((resolve, reject) => {
           const formData = new FormData();
@@ -326,6 +329,7 @@
           });
         });
       },
+
       async mintToken (asset) {
         return new Promise((resolve, reject) => {
           let data = { address: asset.address };
@@ -344,7 +348,7 @@
                 asset.fees.push({
                   recipient: that.user.coinbase,
                   value: that.nft.form.royalties,
-                  tokenId: asset.tokenId,
+                  //tokenId: asset.tokenId,
                 })
               }
               that.asset = asset;
@@ -366,16 +370,18 @@
                 animUrl: asset.animUrl,
                 animStorageId: asset.animStorageId
               };
+
               that.$api("nft.add", _data).then(async function (res) {
                 if (that.$tools.checkResponse(res)) {
                   asset.tokenURI = res.data.metadataUrl;
                   asset.tokenURI = asset.tokenURI.replace('ipfs:/', '')
-
-                  let result;
-                  result = await that.$sdk.mintToken(
+                  
+                  let result = await that.$sdk.mintToken(
                     that.user.coinbase,
                     asset
                   );
+
+                  console.log(result, ',,,,result........................')
                   resolve(result);
                 } else {
                   resolve({ error: res.errmsg });
@@ -388,6 +394,8 @@
           });
         });
       },
+
+
       async saleToken (asset) {
         return new Promise((resolve, reject) => {
           var paytoken = this.nft.payToken;

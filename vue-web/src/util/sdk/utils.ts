@@ -2,6 +2,7 @@ import * as ethABI from 'ethereumjs-abi';
 import BN from "bn.js";
 import utils_web3 from "@/util/web3/index";
 import store from "@/store";
+import { FMT_NUMBER } from 'web3';
 
 const SolidityTypes = {
   Address: "address",
@@ -140,28 +141,34 @@ function contractAbi(type) {
   return file || {};
 }
 
+/**
+ * calc gas
+ * @param web3  web3
+ * @param key  key
+ * @param args  args
+ * @param lastArg  lastArg
+ * @param ts  ts
+ * @returns gas,
+ */
+const calcGas = async (web3: any, key: any, args: any, lastArg: any, ts: any) => {
+  const block = await web3.eth.getBlock("latest", false, { number: FMT_NUMBER.NUMBER })
+  const lastBlock = block.number
+  const gasTracker = store.state.gasTracker
+  let gasPrice = await web3.eth.getGasPrice()
 
-const calcGas = async (web3, key, args, lastArg, ts) => {
-  var block = await web3.eth.getBlock("latest");
-  var lastBlock = block.number;
-  var gasTracker = store.state.gasTracker;
-  let gasPrice = await web3.eth.getGasPrice();
-  if (
-    gasTracker &&
-    parseFloat(gasTracker.lastBlock) > parseFloat(lastBlock - 50)
-  ) {
+  if (gasTracker && (parseFloat(gasTracker.lastBlock) > (lastBlock - 50))) {
     if (gasPrice < gasTracker.medium) {
       gasPrice = gasTracker.medium;
     }
   }
 
-  const gas = await new Promise((resolve, reject) => {
+  const gas: any = await new Promise((resolve, reject) => {
     ts.estimateGas(
       {
         ...lastArg,
         gasPrice,
       },
-      (e, r) => {
+      (e: any, r: any) => {
         if (e) {
           reject(e);
         } else {
@@ -179,12 +186,10 @@ const calcGas = async (web3, key, args, lastArg, ts) => {
     gasPrice,
     gas,
   };
-};
-
-
+}
 
 class MyContract {
-  constructor(contract, abi) {
+  constructor(contract: any, abi: any) {
     this.contract = contract;
     this.abi = abi;
     for (const key in this.contract.methods) {
@@ -208,22 +213,30 @@ class MyContract {
               )
             } else {
               const lastArg = args.pop();
+              console.log(args, "args......................")
               const ts = this.contract.methods[key](...args);
-              calcGas(web3, key, args, lastArg, ts).then((res) => {
-                if (res.error) {
-                  return resolve(res);
-                }
-                var { gas, gasPrice } = res;
-                ts.send(
-                  {
-                    ...lastArg,
-                    gasPrice,
-                    gas,
-                  }
-                ).then(res => {
-                  resolve(res);
-                })
-              });
+              ts.send({ ...lastArg }
+              ).then(res => {
+                resolve(res);
+              })
+
+              // 暂时屏蔽gas
+              // calcGas(web3, key, args, lastArg, ts).then((res) => {
+              //   console.log(key, "key......................")
+              //   if (res.error) {
+              //     return resolve(res);
+              //   }
+              //   var { gas, gasPrice } = res;
+              //   ts.send(
+              //     {
+              //       ...lastArg,
+              //       gasPrice,
+              //       gas,
+              //     }
+              //   ).then(res => {
+              //     resolve(res);
+              //   })
+              // });
             }
           } catch (e) {
             reject({ error: e });

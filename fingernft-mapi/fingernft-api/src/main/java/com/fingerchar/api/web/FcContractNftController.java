@@ -1,6 +1,5 @@
 package com.fingerchar.api.web;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fingerchar.api.service.FcContractNftService;
@@ -18,6 +17,7 @@ import com.fingerchar.db.dto.NftInfo;
 import com.fingerchar.db.vo.FcOrderVo;
 import com.fingerchar.db.vo.NftParamVO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +35,7 @@ import java.util.Map;
  * @author admin
  * @since 2024/9/17 14:21
  */
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(SysConfConstant.URL_PREFIX + "/nft")
@@ -46,6 +47,7 @@ public class FcContractNftController extends BaseController {
 
   @PostMapping("add")
   public Object add(NftInfo nft, String address) {
+    log.info("===>in: {}, address: {}", nft, address);
     String userAddress = (String) request.getAttribute("userAddress");
     if (StringUtils.isEmpty(userAddress)) {
       return ResponseUtil.unlogin();

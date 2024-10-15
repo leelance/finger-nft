@@ -3,7 +3,6 @@ package com.fingerchar.api.web;
 import com.fingerchar.api.service.FcStorageService;
 import com.fingerchar.api.service.StorageService;
 import com.fingerchar.core.base.controller.BaseController;
-import com.fingerchar.core.constant.LanceTestSource;
 import com.fingerchar.core.constant.SysConfConstant;
 import com.fingerchar.core.util.ResponseUtil;
 import com.fingerchar.db.domain.FcStorage;
@@ -42,15 +41,14 @@ public class FcStorageController extends BaseController {
    */
   @PostMapping("/upload")
   public Object upload(@RequestParam("file") MultipartFile file) throws IOException {
-    return ResponseUtil.ok(LanceTestSource.upload());
-
-    /*String originalFilename = file.getOriginalFilename();
+    //return ResponseUtil.ok(LanceTestSource.upload());
+    String originalFilename = file.getOriginalFilename();
     FcStorage fcStorage = storageService.store(file.getInputStream(), file.getSize(), file.getContentType(), originalFilename);
     if (null == fcStorage) {
       return ResponseUtil.fail();
     } else {
       return ResponseUtil.ok(fcStorage);
-    }*/
+    }
   }
 
   @PostMapping("/multiupload")

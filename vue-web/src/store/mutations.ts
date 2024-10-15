@@ -2,9 +2,9 @@ import {
   setLocalStorage,
   removeLocalStorage,
   getLocalStorage,
-} from "@/util/local-storage.js";
-import sdk from "@/util/sdk/index.js";
-import tools from "@/util/tools.js";
+} from "@/util/local-storage";
+import sdk from "@/util/sdk/index";
+import tools from "@/util/tools";
 
 export default {
   WEB_LOADING(state) {
@@ -14,8 +14,8 @@ export default {
     console.log(payload);
     state.config = Object.assign({}, payload);
   },
-  GAS_TRACKER(state,  payload){
-    if(!payload) return;
+  GAS_TRACKER(state, payload) {
+    if (!payload) return;
     state.gasTracker = payload;
   },
   CONNECT(state, payload) {
