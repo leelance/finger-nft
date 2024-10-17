@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.fingerchar.core.constant.SysConfConstant;
 import com.fingerchar.core.storage.IpfsStorage;
-import com.fingerchar.core.storage.Storage;
+import com.fingerchar.core.storage.BaseStorage;
 import com.fingerchar.core.util.CharUtil;
 import com.fingerchar.db.domain.FcStorage;
 import com.fingerchar.db.dto.NftMetadata;
@@ -26,25 +26,25 @@ import java.util.stream.Stream;
 @Service
 public class StorageManager {
 
-    private Storage storage;
+    private BaseStorage storage;
 
-    private Storage ipfsStorage;
+    private BaseStorage ipfsStorage;
 
 
-    public Storage getStorage() {
+    public BaseStorage getStorage() {
         return storage;
     }
 
-    public void setStorage(Storage storage) {
+    public void setStorage(BaseStorage storage) {
         this.storage = storage;
     }
 
 
-    public Storage getIpfsStorage() {
+    public BaseStorage getIpfsStorage() {
         return ipfsStorage;
     }
 
-    public void setIpfsStorage(Storage ipfsStorage) {
+    public void setIpfsStorage(BaseStorage ipfsStorage) {
         this.ipfsStorage = ipfsStorage;
     }
 

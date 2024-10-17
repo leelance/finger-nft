@@ -4,6 +4,11 @@
       "sourceType": "com.fingerchar.core.config.properties.FingerProperties",
       "name": "com.finger",
       "type": "com.fingerchar.core.config.properties.FingerProperties"
+    },
+    {
+      "sourceType": "com.fingerchar.core.config.properties.StorageProperties",
+      "name": "com.finger.storage",
+      "type": "com.fingerchar.core.config.properties.StorageProperties"
     }
   ],
   "properties": [

@@ -357,7 +357,7 @@ public class FcContractNftService {
             nft.setMetadataUrl(uri);
 
             try {
-                tokenInfo = DappWeb3jUtil.processUri(nft.getMetadataUrl());
+                tokenInfo = DappWeb3jUtil.processUri(nft.getMetadataUrl(), storageService.getStorage());
                 if (null != tokenInfo) {
                     map.put(key, tokenInfo.getContent());
                     nft.setName(tokenInfo.getName());

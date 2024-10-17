@@ -5,6 +5,7 @@ import com.fingerchar.api.utils.contract.ERC1155;
 import com.fingerchar.api.utils.contract.ERC721;
 import com.fingerchar.api.utils.contract.Royalties;
 import com.fingerchar.api.vo.ERCTokenInfo;
+import com.fingerchar.core.storage.BaseStorage;
 import com.fingerchar.core.storage.IpfsStorage;
 import com.fingerchar.core.util.HttpUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -78,7 +79,7 @@ public class DappWeb3jUtil {
     }
   }
 
-  public static ERCTokenInfo processUri(String uri) throws IOException {
+  public static ERCTokenInfo processUri(String uri, BaseStorage storage) throws IOException {
     if (null != uri) {
       ERCTokenInfo info = new ERCTokenInfo();
       info.setUri(uri);
@@ -88,7 +89,7 @@ public class DappWeb3jUtil {
         if (uri.length() == 46) {
           String tokenInfoStr = null;
           try {
-            tokenInfoStr = IpfsStorage.getIpfsData(uri);
+            tokenInfoStr = storage.getTokenInfo(uri);
           } catch (Exception e) {
             logger.error("获取ipfs信息异常", e);
             return null;

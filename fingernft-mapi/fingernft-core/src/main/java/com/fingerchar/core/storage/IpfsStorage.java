@@ -1,11 +1,14 @@
 package com.fingerchar.core.storage;
 
+import com.fingerchar.core.config.properties.IpfsDefaultProperties;
+import com.fingerchar.core.config.properties.StorageProperties;
+import com.fingerchar.core.exception.ServiceException;
 import com.fingerchar.core.storage.ipfsext.IpfsExt;
+import com.fingerchar.core.util.StringConst;
 import io.ipfs.api.MerkleNode;
 import io.ipfs.api.NamedStreamable;
-import io.ipfs.multihash.Multihash;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -17,164 +20,111 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
-public class IpfsStorage extends StorageAdaptor {
-	
-	private static final Log logger = LogFactory.getLog(IpfsStorage.class);
-	
-	private static String host;
-	
-	private static Integer port;
-	
-	private static Path localLocation;
-	
-	private static String requestBase;
+/**
+ * ipfs 自定义安装配置 存储服务
+ *
+ * @author admin
+ * @since 2024/10/17 16:28
+ */
+@Slf4j
+public class IpfsStorage implements BaseStorage {
+  private final Path localLocation;
 
-	private static String basePath;
-	
-	private static String remoteService;
 
-	public String getHost() {
-		return host;
-	}
+  private final IpfsDefaultProperties ipfsDefault;
 
-	public void setHost(String host) {
-		IpfsStorage.host = host;
-	}
-	
-	public void setLoclLocation(String localPath) {
-		if(!localPath.startsWith("/")) {
-			Path temp = Paths.get("");
-			String curPath = temp.toFile().getAbsolutePath();
-			curPath = curPath.substring(0, curPath.lastIndexOf(File.separator));
-			localPath = curPath + File.separator + localPath;
-		}
-		IpfsStorage.localLocation = Paths.get(localPath);
-        try {
-            Files.createDirectories(localLocation);
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-        }
+  public IpfsStorage(StorageProperties properties) {
+    StorageProperties.LocalProperties local = properties.getLocal();
+    this.ipfsDefault = properties.getIpfsDefault();
+    this.localLocation = Paths.get(local.getStoragePath());
+  }
+
+  @Override
+  public String store(InputStream inputStream, String fileName) {
+    Path temp = localLocation.resolve(fileName);
+    File localFile = temp.toFile();
+    try {
+      Files.copy(inputStream, temp, StandardCopyOption.REPLACE_EXISTING);
+    } catch (IOException e) {
+      throw ServiceException.of("Failed to store temp file " + fileName, e);
     }
 
-	public void setPort(Integer port) {
-		IpfsStorage.port = port;
-	}
-	public void setRequestBase(String requestBase) {
-		IpfsStorage.requestBase = requestBase;
-	}
+    IpfsExt ipfs = new IpfsExt(ipfsDefault.getHost(), ipfsDefault.getPort());
+    NamedStreamable.FileWrapper file = new NamedStreamable.FileWrapper(localFile);
+    try {
+      List<MerkleNode> list = ipfs.add(file);
+      if (null != list && !list.isEmpty()) {
+        String fileHash = list.get(0).hash.toString();
+        String newName = fileHash + fileName.substring(fileName.lastIndexOf("."));
+        boolean ignore = localFile.renameTo(new File(localFile.getParent() + StringConst.SLASH + newName));
+        log.info("ipfs rename result: {}", ignore);
+        //持久化
+        if (StringUtils.isNotBlank(ipfsDefault.getRemoteApi())) {
+          ipfs.remotePin.add(list.get(0).hash, ipfsDefault.getRemoteApi(), newName, true);
+        }
+        return newName;
+      }
+      return null;
+    } catch (IOException e) {
+      throw ServiceException.of("Failed to store file to ipfs " + fileName, e);
+    }
+  }
 
-	public String getBasePath() {
-		return basePath;
-	}
+  @Override
+  public String[] store(InputStream[] inputStreams, String[] fileNames, String dirPath) {
+    String basePath = localLocation.toFile().getPath();
+    File localDir = new File(basePath + StringConst.SLASH + dirPath);
 
-	public void setBasePath(String basePath) {
-		IpfsStorage.basePath = basePath;
-	}
-	
-	public void setRemoteService(String remoteService) {
-		IpfsStorage.remoteService = remoteService;
-	}
+    int len = inputStreams.length;
+    createTmp(localDir, len, dirPath, inputStreams, fileNames);
 
-	@Override
-	public String store(InputStream inputStream, String fileName) {
-		Path temp = localLocation.resolve(fileName);
-		File localFile = temp.toFile();
-		try {
-			Files.copy(inputStream, temp, StandardCopyOption.REPLACE_EXISTING);
-		} catch (IOException e) {
-			throw new RuntimeException("Failed to store temp file " + fileName, e);
-		}
-		IpfsExt ipfs = new IpfsExt(host, port);
-		NamedStreamable.FileWrapper file = new NamedStreamable.FileWrapper(localFile);
-		try {
-			List<MerkleNode> list = ipfs.add(file);
-			if(null != list && list.size() > 0) {
-				String fileHash = list.get(0).hash.toString();
-				String newName = fileHash + fileName.substring(fileName.lastIndexOf("."));
-				localFile.renameTo(new File(localFile.getParent() + "/" + newName));
-				//持久化
-				if(!StringUtils.isEmpty(remoteService)) {
-					ipfs.remotePin.add(list.get(0).hash, remoteService, newName, true);
-				}
-				return newName;
-			}
-			return null; 
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Failed to store file to ipfs " + fileName, e);
-		}
-	}
+    IpfsExt ipfs = new IpfsExt(ipfsDefault.getHost(), ipfsDefault.getPort());
+    try {
+      NamedStreamable.FileWrapper file = new NamedStreamable.FileWrapper(localDir);
+      List<MerkleNode> list = ipfs.add(file);
+      if (null != list && !list.isEmpty()) {
+        String publicHash = null;
+        for (MerkleNode merkleNode : list) {
+          if (merkleNode.name.isPresent() && dirPath.equals(merkleNode.name.get())) {
+            publicHash = merkleNode.hash.toString();
+            //持久化
+            if (StringUtils.isNotBlank(ipfsDefault.getRemoteApi())) {
+              ipfs.remotePin.add(list.get(0).hash, ipfsDefault.getRemoteApi(), "file-" + publicHash, true);
+            }
+          }
+        }
+        boolean ignore = localDir.renameTo(new File(basePath + StringConst.SLASH + publicHash));
+        log.info("===>rename file: {}", ignore);
+        String[] ipfsFiles = new String[2];
+        for (int i = 0; i < len; i++) {
+          String newName = publicHash + StringConst.SLASH + fileNames[i];
+          ipfsFiles[i] = newName;
+        }
+        return ipfsFiles;
+      }
+      return new String[0];
+    } catch (IOException e) {
+      throw ServiceException.of("Failed to store file to ipfs ", e);
+    }
+  }
 
-	@Override
-	public String[] store(InputStream[] inputStreams, String[] fileNames, String dirPath) {
-		String basePath = localLocation.toFile().getPath();
-		File localDir = new File(basePath + "/" + dirPath);
-		if(!localDir.exists()) {
-			localDir.mkdir();
-		}
-		int len = inputStreams.length;
-		File[] files = new File[len];
-		try {
-			Path temp = null;
-			for(int i=0; i<len; i++) {				
-				temp = localLocation.resolve(dirPath + "/" + fileNames[i]);
-				files[i] = temp.toFile();
-				Files.copy(inputStreams[i], temp, StandardCopyOption.REPLACE_EXISTING);
-			}
-		} catch (IOException e) {
-			throw new RuntimeException("Failed to store local file", e);
-		}
-		IpfsExt ipfs = new IpfsExt(host, port);
-		try {
-			NamedStreamable.FileWrapper file = new NamedStreamable.FileWrapper(localDir);
-			List<MerkleNode> list = ipfs.add(file);
-			if(null != list && list.size() > 0) {
-				String publicHash = null;
-				for(int i=0; i<list.size(); i++) {
-					if(dirPath.equals(list.get(i).name.get())) {
-						publicHash = list.get(i).hash.toString();
-						//持久化
-						if(!StringUtils.isEmpty(remoteService)) {
-							ipfs.remotePin.add(list.get(i).hash, remoteService, "file-" + publicHash, true);
-						}
-					}
-				}
-				localDir.renameTo(new File(basePath + "/" + publicHash));
-				String[] ipfsFiles = new String[2];
-				for(int i=0; i<len; i++) {
-					String newName = publicHash + "/" + fileNames[i];
-					ipfsFiles[i] = newName;
-				}
-				return ipfsFiles;
-			}
-			return null; 
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Failed to store file to ipfs ", e);
-		}
-	}
+  @Override
+  public String generateUrl(String keyName) {
+    return ipfsDefault.getRemoteApi().endsWith(StringConst.SLASH) ? ipfsDefault.getRemoteApi() + keyName : ipfsDefault.getRemoteApi() + StringConst.SLASH + keyName;
+  }
 
-	@Override
-	public String generateUrl(String keyName) {
-		if(IpfsStorage.requestBase.endsWith("/")) {			
-			return IpfsStorage.requestBase + keyName;
-		} else {
-			return IpfsStorage.requestBase + "/" + keyName;
-		}
-	}
-	
-	public static String getIpfsData(String ipfsHash) {
-		if(StringUtils.isEmpty(ipfsHash)){
-			return null;
-		}
-		try {
-			IpfsExt ipfs = new IpfsExt(host, port);
-			Multihash filePointer =Multihash.fromBase58(ipfsHash);
-			byte[] data = ipfs.cat(filePointer);
-			return new String(data);
-		} catch (IOException e) {
-			logger.error("获取ipfs数据" + ipfsHash + "异常=>", e);
-		}
-		return null;
-	}
+  private void createTmp(File localDir, int len, String dirPath, InputStream[] inputStreams, String[] fileNames) {
+    try {
+      if (!localDir.exists()) {
+        FileUtils.forceMkdir(localDir);
+      }
+      Path temp;
+      for (int i = 0; i < len; i++) {
+        temp = localLocation.resolve(dirPath + "/" + fileNames[i]);
+        Files.copy(inputStreams[i], temp, StandardCopyOption.REPLACE_EXISTING);
+      }
+    } catch (IOException e) {
+      throw ServiceException.of("Failed to store local file", e);
+    }
+  }
 }

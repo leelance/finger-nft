@@ -4,6 +4,7 @@ package com.fingerchar.core.util;
 import com.alibaba.fastjson.JSONObject;
 import com.fingerchar.core.exception.ServiceException;
 import com.fingerchar.core.result.ResultCode;
+import com.fingerchar.core.storage.BaseStorage;
 import com.fingerchar.core.storage.IpfsStorage;
 import com.fingerchar.core.util.contract.ERC20;
 import com.fingerchar.core.util.contract.ERC721;
@@ -84,7 +85,7 @@ public class DappWeb3jUtil {
     }
   }
 
-  public static ERCTokenInfo processNftUri(String uri) throws IOException {
+  public static ERCTokenInfo processNftUri(String uri, BaseStorage storage) throws IOException {
     if (null != uri) {
       ERCTokenInfo info = new ERCTokenInfo();
       info.setUri(uri);
@@ -94,7 +95,7 @@ public class DappWeb3jUtil {
         if (uri.length() == 46) {
           String tokenInfoStr = null;
           try {
-            tokenInfoStr = IpfsStorage.getIpfsData(uri);
+            tokenInfoStr = storage.getTokenInfo(uri);
           } catch (Exception e) {
             log.error("获取ipfs信息异常", e);
             return null;

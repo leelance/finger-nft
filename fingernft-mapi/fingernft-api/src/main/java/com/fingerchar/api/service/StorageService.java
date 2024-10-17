@@ -1,7 +1,7 @@
 package com.fingerchar.api.service;
 
 import com.fingerchar.core.storage.IpfsStorage;
-import com.fingerchar.core.storage.Storage;
+import com.fingerchar.core.storage.BaseStorage;
 import com.fingerchar.core.util.CharUtil;
 import com.fingerchar.db.domain.FcStorage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +22,16 @@ import java.util.stream.Stream;
 @Service
 public class StorageService {
 
-  private Storage storage;
+  private BaseStorage storage;
 
   @Autowired
   private FcStorageService fcStorageService;
 
-  public Storage getStorage() {
+  public BaseStorage getStorage() {
     return storage;
   }
 
-  public void setStorage(Storage storage) {
+  public void setStorage(BaseStorage storage) {
     this.storage = storage;
   }
 

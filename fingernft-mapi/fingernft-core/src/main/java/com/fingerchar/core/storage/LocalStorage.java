@@ -1,8 +1,10 @@
 package com.fingerchar.core.storage;
 
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import com.fingerchar.core.config.properties.StorageProperties;
+import com.fingerchar.core.exception.ServiceException;
+import com.fingerchar.core.util.StringConst;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
@@ -18,103 +20,81 @@ import java.util.stream.Stream;
 
 /**
  * 服务器本地对象存储服务
+ *
+ * @author admin
+ * @since 2024/10/17 16:28
  */
-public class LocalStorage extends StorageAdaptor {
+@Slf4j
+public class LocalStorage implements BaseStorage {
+  private final StorageProperties.LocalProperties properties;
 
+  private Path rootLocation;
 
-    private final Log logger = LogFactory.getLog(LocalStorage.class);
+  public LocalStorage(StorageProperties properties) {
+    this.properties = properties.getLocal();
 
-    private String storagePath;
-    private String address;
-
-    private Path rootLocation;
-
-    public String getStoragePath() {
-        return storagePath;
+    try {
+      String dir = properties.getLocal().getStoragePath();
+      if (!new File(dir).exists()) {
+        this.rootLocation = Paths.get(dir);
+        Files.createDirectories(this.rootLocation);
+      }
+    } catch (Exception ex) {
+      log.warn("create local storage path fail: ", ex);
     }
+  }
 
-    public void setStoragePath(String storagePath) {
-    	this.storagePath = storagePath;
-        if(!storagePath.startsWith("/")) {
-			Path temp = Paths.get("");
-			String curPath = temp.toFile().getAbsolutePath();
-			curPath = curPath.substring(0, curPath.lastIndexOf(File.separator));
-			storagePath = curPath + File.separator + storagePath;
-		}
-        this.rootLocation = Paths.get(storagePath);
-        try {
-            Files.createDirectories(rootLocation);
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-        }
+  @Override
+  public void store(InputStream inputStream, long contentLength, String contentType, String keyName) {
+    try {
+      Files.copy(inputStream, rootLocation.resolve(keyName), StandardCopyOption.REPLACE_EXISTING);
+    } catch (IOException e) {
+      throw ServiceException.of("Failed to store file " + keyName, e);
     }
+  }
 
-    public String getAddress() {
-        return address;
+  @Override
+  public Stream<Path> loadAll() {
+    try (Stream<Path> walk = Files.walk(rootLocation, 1)) {
+      return walk.filter(path -> !path.equals(rootLocation)).map(path -> rootLocation.relativize(path));
+    } catch (IOException e) {
+      throw ServiceException.of("Failed to read stored files ", e);
     }
+  }
 
-    public void setAddress(String address) {
-        this.address = address;
+  @Override
+  public Path load(String filename) {
+    return rootLocation.resolve(filename);
+  }
+
+  @Override
+  public Resource loadAsResource(String filename) {
+    try {
+      Path file = load(filename);
+      Resource resource = new UrlResource(file.toUri());
+      if (resource.exists() || resource.isReadable()) {
+        return resource;
+      } else {
+        return null;
+      }
+    } catch (MalformedURLException e) {
+      log.error(e.getMessage(), e);
+      return null;
     }
+  }
 
-    @Override
-    public void store(InputStream inputStream, long contentLength, String contentType, String keyName) {
-        try {
-            Files.copy(inputStream, rootLocation.resolve(keyName), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to store file " + keyName, e);
-        }
+  @Override
+  public void delete(String filename) {
+    Path file = load(filename);
+    try {
+      Files.delete(file);
+    } catch (IOException e) {
+      log.error(e.getMessage(), e);
     }
+  }
 
-    @Override
-    public Stream<Path> loadAll() {
-        try {
-            return Files.walk(rootLocation, 1)
-                    .filter(path -> !path.equals(rootLocation))
-                    .map(path -> rootLocation.relativize(path));
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to read stored files", e);
-        }
-
-    }
-
-    @Override
-    public Path load(String filename) {
-        return rootLocation.resolve(filename);
-    }
-
-    @Override
-    public Resource loadAsResource(String filename) {
-        try {
-            Path file = load(filename);
-            Resource resource = new UrlResource(file.toUri());
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            } else {
-                return null;
-            }
-        } catch (MalformedURLException e) {
-            logger.error(e.getMessage(), e);
-            return null;
-        }
-    }
-
-    @Override
-    public void delete(String filename) {
-        Path file = load(filename);
-        try {
-            Files.delete(file);
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-        }
-    }
-
-    @Override
-    public String generateUrl(String keyName) {
-    	if(this.address.endsWith("/")) {    		
-    		return address + keyName;
-    	} else {
-    		return address + "/" + keyName;
-    	}
-    }
+  @Override
+  public String generateUrl(String keyName) {
+    return properties.getStoragePath().endsWith(StringConst.SLASH) ? properties.getStoragePath() + keyName : properties.getStoragePath() + StringConst.SLASH + keyName;
+  }
 }

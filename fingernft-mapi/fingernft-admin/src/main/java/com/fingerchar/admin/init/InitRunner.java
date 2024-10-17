@@ -1,5 +1,6 @@
 package com.fingerchar.admin.init;
 
+import com.fingerchar.core.config.properties.StorageProperties;
 import com.fingerchar.core.constant.SysConfConstant;
 import com.fingerchar.core.manager.FcSystemConfigManager;
 import com.fingerchar.core.manager.StorageManager;
@@ -11,7 +12,6 @@ import com.fingerchar.core.util.json.JsonUtils;
 import com.fingerchar.db.dto.ConfigNetwork;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +28,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class InitRunner implements CommandLineRunner {
   private final FcSystemConfigManager systemConfigManager;
+  private final StorageProperties storageProperties;
 
   @Override
   public void run(String... args) throws Exception {
@@ -37,31 +38,12 @@ public class InitRunner implements CommandLineRunner {
 
   private void initIpfs() {
     log.info("===>init ipfs start");
-    String host = this.systemConfigManager.getKeyValue(SysConfConstant.IPFS_SERVER_IP);
-    String port = this.systemConfigManager.getKeyValue(SysConfConstant.IPFS_SERVER_PORT);
-    String remoteServer = this.systemConfigManager.getKeyValue(SysConfConstant.IPFS_REMOTE_SERVER);
-
-    String staticPath = this.systemConfigManager.getKeyValue(SysConfConstant.STATIC_LOCAL_PATH);
-    if (StringUtils.isEmpty(staticPath)) {
-      staticPath = "/";
-    }
-    staticPath = staticPath.endsWith("/") ? staticPath + "static/upload" : staticPath + "/static/upload";
-    String uploadPath = "/static/upload";
-
     StorageManager storageManager = SpringContextUtil.getBean(StorageManager.class);
+    storageManager.setStorage(new LocalStorage(storageProperties));
 
-    IpfsStorage storage = new IpfsStorage();
-    storage.setHost(host);
-    storage.setPort(StringUtils.isEmpty(port) ? 0 : Integer.parseInt(port));
-    storage.setLoclLocation(staticPath);
-    storage.setRemoteService(remoteServer);
-    storage.setRequestBase(uploadPath);
+    IpfsStorage storage = new IpfsStorage(storageProperties);
     storageManager.setIpfsStorage(storage);
 
-    LocalStorage localStorage = new LocalStorage();
-    localStorage.setAddress(uploadPath);
-    localStorage.setStoragePath(staticPath);
-    storageManager.setStorage(localStorage);
     log.info("===>init ipfs end");
   }
 
