@@ -1,6 +1,7 @@
 package com.fingerchar.core.config;
 
 import com.fingerchar.core.config.properties.FingerProperties;
+import com.fingerchar.core.config.properties.PinataProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +18,7 @@ import org.springframework.web.filter.CorsFilter;
  */
 @Configuration
 @RequiredArgsConstructor
-@EnableConfigurationProperties({FingerProperties.class})
+@EnableConfigurationProperties({FingerProperties.class, PinataProperties.class})
 public class CorsConfig {
   private final FingerProperties fingerProperties;
 

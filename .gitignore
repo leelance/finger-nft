@@ -45,3 +45,5 @@ vue-admin/node_modules
 vue-web/node_modules
 token-contract/node_modules
 truffle-contract/node_modules
+
+application-dev.yml

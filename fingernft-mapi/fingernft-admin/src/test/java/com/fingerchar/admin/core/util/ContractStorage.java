@@ -1,4 +1,4 @@
-package com.fingerchar.core.util;
+package com.fingerchar.admin.core.util;
 
 import java.math.BigInteger;
 import java.util.Arrays;

@@ -1,5 +1,6 @@
 package com.fingerchar.core.config.properties;
 
+import com.fingerchar.core.config.enums.StorageTypeEnum;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -20,6 +21,7 @@ public class FingerProperties {
    * 配置jwt secret
    */
   private String tokenSecret = "Finger-Nft-Token";
+
   /**
    * 跨域请求最大时间 30 days
    * ns for nanoseconds
@@ -31,4 +33,9 @@ public class FingerProperties {
    * d for days
    */
   private Duration corsMaxAge = Duration.ofDays(30);
+
+  /**
+   * 文件存储类型
+   */
+  private StorageTypeEnum storageType = StorageTypeEnum.LOCAL;
 }

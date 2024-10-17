@@ -1,6 +1,8 @@
 spring:
   application:
     name: finger-nft-admin
+  config:
+    import: application-dev.yml
   messages:
     encoding: UTF-8
   servlet:
@@ -10,7 +12,7 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.52.101:3306/finger_nft?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&verifyServerCertificate=false&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://127.0.0.1:3306/finger_nft?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true&verifyServerCertificate=false&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: li123456
     hikari:
@@ -46,3 +48,6 @@ logging:
     com.fingerchar.db: debug
     com.fingerchar.core: info
 
+com:
+  finger:
+    storage-type: pinata

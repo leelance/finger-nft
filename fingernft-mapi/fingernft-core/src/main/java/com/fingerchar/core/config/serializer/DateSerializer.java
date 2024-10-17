@@ -9,14 +9,16 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
- * @author: Black_Dragon
- * @date: 2021/5/21
+ * DateSerializer
+ *
+ * @author Black_Dragon
+ * @since 2021/5/21
  */
 public class DateSerializer extends JsonSerializer<Date> {
-    @Override
-    public void serialize(Date date, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        if(null != date) {
-            jsonGenerator.writeNumber(date.getTime());
-        }
+  @Override
+  public void serialize(Date date, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+    if (null != date) {
+      jsonGenerator.writeNumber(date.getTime());
     }
+  }
 }
