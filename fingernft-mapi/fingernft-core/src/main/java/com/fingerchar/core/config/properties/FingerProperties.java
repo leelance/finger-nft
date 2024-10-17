@@ -37,5 +37,5 @@ public class FingerProperties {
   /**
    * 文件存储类型
    */
-  private StorageTypeEnum storageType = StorageTypeEnum.LOCAL;
+  private StorageTypeEnum storageType = StorageTypeEnum.IPFS_DEFAULT;
 }

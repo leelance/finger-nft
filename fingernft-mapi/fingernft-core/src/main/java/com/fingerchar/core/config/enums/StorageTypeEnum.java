@@ -12,7 +12,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum StorageTypeEnum {
-  LOCAL("default", "默认类型, 自带类型"),
+  IPFS_DEFAULT("ipfs-default", "默认类型, 自带类型"),
   PINATA("pinata", "pinata类型, https://app.pinata.cloud/"),
   CLOUDFLARE("cloudflare", "cloudflare类型, https://dash.cloudflare.com/"),
   ;

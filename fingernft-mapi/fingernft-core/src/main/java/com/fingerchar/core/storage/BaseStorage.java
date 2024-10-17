@@ -1,7 +1,9 @@
 package com.fingerchar.core.storage;
 
 import com.fingerchar.core.util.StringConst;
+import com.fingerchar.db.domain.FcStorage;
 import org.springframework.core.io.Resource;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.nio.file.Path;
@@ -53,6 +55,16 @@ public interface BaseStorage {
 
   default String generateUrl(String keyName) {
     return StringConst.EMPTY;
+  }
+
+  /**
+   * 上传文件
+   *
+   * @param multipartFile MultipartFile
+   * @return FcStorage
+   */
+  default FcStorage upload(MultipartFile multipartFile) {
+    return null;
   }
 
   /**

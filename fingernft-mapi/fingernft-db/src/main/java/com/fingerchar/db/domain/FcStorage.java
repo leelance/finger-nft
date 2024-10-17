@@ -46,9 +46,16 @@ public class FcStorage extends BaseEntity {
   @TableField("`url`")
   private String url;
 
+  /**
+   * ipfs hash地址
+   */
   @TableField("`ipfsHash`")
-  private String ipfshash;
-
+  private String ipfsHash;
+  /**
+   * 外部id第三方
+   */
+  @TableField("`ext_id`")
+  private String extId;
 
   public static final String KEY = "`key`";
 

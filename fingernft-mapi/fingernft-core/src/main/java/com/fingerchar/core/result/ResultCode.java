@@ -67,6 +67,7 @@ public enum ResultCode implements IResultCode {
   WEB3J_GET_ETH_LOG_ERR(P.CORE.prefix() + 1002, "web3j get eth log fail", ""),
   SYS_CFG_LAST_BLK_ERR(P.CORE.prefix() + 1003, "system config last block null", ""),
   WEB3J_GET_BLK_LIST_ERR(P.CORE.prefix() + 1004, "web3j batch get block list fail", ""),
+  UPLOAD_FILE_ERR(P.CORE.prefix() + 1005, "upload file fail", ""),
   ;
 
   /**

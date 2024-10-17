@@ -63,11 +63,11 @@ public class StorageManager {
         FcStorage storage = this.storageManager.get(nft.getStorageId());
         if (StringUtils.isEmpty(nft.getAnimUrl())) {
             map.put("animation_url", "");
-            map.put("image", storage.getIpfshash());
+            map.put("image", storage.getIpfsHash());
         } else {
-            map.put("image", storage.getIpfshash() + "/" + storage.getKey());
+            map.put("image", storage.getIpfsHash() + "/" + storage.getKey());
             storage = this.storageManager.get(nft.getAnimStorageId());
-            map.put("animation_url", storage.getIpfshash() + "/" + storage.getKey());
+            map.put("animation_url", storage.getIpfsHash() + "/" + storage.getKey());
         }
         String website = this.systemConfigManager.getKeyValue(SysConfConstant.WEBSITE);
 
@@ -83,7 +83,7 @@ public class StorageManager {
         String metadata = JSON.toJSONString(map);
         InputStream is = new ByteArrayInputStream(metadata.getBytes());
         storage = this.store(is, metadata.getBytes().length, "application/json", nft.getName() + ".json", "ipfs");
-        nft.setMetadataUrl(storage.getIpfshash());
+        nft.setMetadataUrl(storage.getIpfsHash());
         nft.setMetadataContent(metadata);
         return nft;
     }
@@ -111,7 +111,7 @@ public class StorageManager {
                 storageInfo.setUrl(this.ipfsStorage.generateUrl(fileHash));
                 storageInfo.setCreateTime(System.currentTimeMillis()/1000);
                 storageInfo.setUpdateTime(System.currentTimeMillis()/1000);
-                storageInfo.setIpfshash("ipfs://ipfs/" + fileHash.substring(0, fileHash.indexOf(".")));
+                storageInfo.setIpfsHash("ipfs://ipfs/" + fileHash.substring(0, fileHash.indexOf(".")));
                 this.storageManager.add(storageInfo);
                 return storageInfo;
             }
@@ -130,7 +130,7 @@ public class StorageManager {
                 storageInfo.setUrl(this.storage.generateUrl(fileHash));
                 storageInfo.setCreateTime(System.currentTimeMillis()/1000);
                 storageInfo.setUpdateTime(System.currentTimeMillis()/1000);
-                storageInfo.setIpfshash("ipfs://ipfs/" + fileHash.substring(0, fileHash.indexOf(".")));
+                storageInfo.setIpfsHash("ipfs://ipfs/" + fileHash.substring(0, fileHash.indexOf(".")));
                 this.storageManager.add(storageInfo);
                 return storageInfo;
             }
@@ -176,7 +176,7 @@ public class StorageManager {
                     storageInfo.setUrl(this.ipfsStorage.generateUrl(hashFiles[i]));
                     storageInfo.setCreateTime(System.currentTimeMillis()/1000);
                     storageInfo.setUpdateTime(System.currentTimeMillis()/1000);
-                    storageInfo.setIpfshash("ipfs://ipfs/" + hashFiles[i].substring(0, hashFiles[i].indexOf("/")));
+                    storageInfo.setIpfsHash("ipfs://ipfs/" + hashFiles[i].substring(0, hashFiles[i].indexOf("/")));
                     storageManager.add(storageInfo);
                     list.add(storageInfo);
                 }
