@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fingerchar.api.service.FcNoticeService;
 import com.fingerchar.api.service.FcUserService;
 import com.fingerchar.core.base.controller.BaseController;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.util.ResponseUtil;
 import com.fingerchar.db.domain.FcUser;
 import com.fingerchar.db.vo.notice.NoticeInfoVo;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(SysConfConstant.URL_PREFIX + "/notices")
+@RequestMapping(SysConfConst.URL_PREFIX + "/notices")
 public class FcNoticeController extends BaseController {
 
 	@Autowired

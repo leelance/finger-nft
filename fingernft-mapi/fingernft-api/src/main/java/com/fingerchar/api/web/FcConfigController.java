@@ -2,7 +2,7 @@ package com.fingerchar.api.web;
 
 import com.fingerchar.api.service.FcSystemConfigService;
 import com.fingerchar.core.base.controller.BaseController;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * config储服务
  */
 @RestController
-@RequestMapping(SysConfConstant.URL_PREFIX + "/config")
+@RequestMapping(SysConfConst.URL_PREFIX + "/config")
 public class FcConfigController extends BaseController {
 
     @Autowired

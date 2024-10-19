@@ -3,7 +3,7 @@ package com.fingerchar.core.manager;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fingerchar.core.base.service.IBaseService;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.util.json.JsonUtils;
 import com.fingerchar.db.base.BaseEntity;
 import com.fingerchar.db.domain.FcSystem;
@@ -47,7 +47,7 @@ public class FcSystemConfigManager {
   }
 
   public ConfigNetwork getConfigNetwork() {
-    String value = this.getKeyValue(SysConfConstant.CONFIG_NETWORK);
+    String value = this.getKeyValue(SysConfConst.CONFIG_NETWORK);
     if (StringUtils.isEmpty(value)) {
       return null;
     }
@@ -56,7 +56,7 @@ public class FcSystemConfigManager {
   }
 
   public ConfigDeploy getConfigDeploy() {
-    String value = this.getKeyValue(SysConfConstant.CONFIG_DEPLOY);
+    String value = this.getKeyValue(SysConfConst.CONFIG_DEPLOY);
     if (StringUtils.isEmpty(value)) {
       return null;
     }
@@ -65,7 +65,7 @@ public class FcSystemConfigManager {
   }
 
   public ConfigContract getConfigContract() {
-    String value = this.getKeyValue(SysConfConstant.CONFIG_CONTRACT);
+    String value = this.getKeyValue(SysConfConst.CONFIG_CONTRACT);
     if (StringUtils.isEmpty(value)) {
       return null;
     }

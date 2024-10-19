@@ -1,4 +1,4 @@
-package com.fingerchar.core.constant;
+package com.fingerchar.core.common.enums;
 
 public enum CommonStatus {
 	SALE("Sale",1), EDIT_SALE("Edit sale",2), CANCEL_SALE("Cancel sale", 3),

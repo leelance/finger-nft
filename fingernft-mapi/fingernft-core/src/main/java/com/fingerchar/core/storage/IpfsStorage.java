@@ -2,7 +2,7 @@ package com.fingerchar.core.storage;
 
 import com.fingerchar.core.config.properties.IpfsDefaultProperties;
 import com.fingerchar.core.config.properties.StorageProperties;
-import com.fingerchar.core.exception.ServiceException;
+import com.fingerchar.core.common.exception.ServiceException;
 import com.fingerchar.core.storage.ipfsext.IpfsExt;
 import com.fingerchar.core.util.StringConst;
 import io.ipfs.api.MerkleNode;

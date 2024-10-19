@@ -1,4 +1,4 @@
-package com.fingerchar.core.result;
+package com.fingerchar.core.common.result;
 
 import lombok.AllArgsConstructor;
 

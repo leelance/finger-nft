@@ -1,4 +1,4 @@
-package com.fingerchar.core.constant;
+package com.fingerchar.core.common.consts;
 
 import lombok.experimental.UtilityClass;
 
@@ -9,7 +9,7 @@ import lombok.experimental.UtilityClass;
  * @since 2024/8/18 12:18
  */
 @UtilityClass
-public class SysConstant {
+public class SysConst {
 
   public static final String PAGE = "page";
 

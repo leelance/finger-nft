@@ -1,7 +1,7 @@
 package com.fingerchar.admin.service.event;
 
 
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.manager.FcSystemConfigManager;
 import com.fingerchar.core.manager.FcTxOrderManager;
 import com.fingerchar.db.vo.EventValuesExt;
@@ -76,7 +76,7 @@ public class EventService extends com.fingerchar.admin.service.event.baseEventSe
         last = tmp;
       }
     }
-    this.systemConfigManager.update(SysConfConstant.LAST_BLOCK, last.toString());
+    this.systemConfigManager.update(SysConfConst.LAST_BLOCK, last.toString());
   }
 
 

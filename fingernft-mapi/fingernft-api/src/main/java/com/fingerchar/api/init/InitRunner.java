@@ -4,7 +4,7 @@ import com.fingerchar.api.service.StorageService;
 import com.fingerchar.api.utils.DappCryptoUtil;
 import com.fingerchar.api.utils.DappWeb3jUtil;
 import com.fingerchar.core.config.properties.StorageProperties;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.manager.FcSystemConfigManager;
 import com.fingerchar.core.storage.IpfsStorage;
 import com.fingerchar.core.util.SpringContextUtil;
@@ -63,7 +63,7 @@ public class InitRunner implements CommandLineRunner {
 
   private void initWeb3j() {
     log.info("===>init web3j start");
-    String value = this.systemConfigManager.getKeyValue(SysConfConstant.CONFIG_NETWORK);
+    String value = this.systemConfigManager.getKeyValue(SysConfConst.CONFIG_NETWORK);
     if (value.isEmpty()) {
       return;
     }

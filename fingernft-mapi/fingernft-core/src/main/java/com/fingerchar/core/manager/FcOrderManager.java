@@ -2,7 +2,7 @@ package com.fingerchar.core.manager;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fingerchar.core.base.service.IBaseService;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.db.base.BaseEntity;
 import com.fingerchar.db.dao.ext.FcNftItemsExtMapper;
 import com.fingerchar.db.dao.ext.FcOrderExtMapper;
@@ -220,8 +220,8 @@ public class FcOrderManager {
         order.setStatus(0);
         order.setOrderType(1);
 
-        order.setSellFee(Integer.parseInt(this.systemConfigManager.getKeyValue(SysConfConstant.SELLER_FEE)));
-        order.setBuyFee(Integer.parseInt(this.systemConfigManager.getKeyValue(SysConfConstant.BUYER_FEE)));
+        order.setSellFee(Integer.parseInt(this.systemConfigManager.getKeyValue(SysConfConst.SELLER_FEE)));
+        order.setBuyFee(Integer.parseInt(this.systemConfigManager.getKeyValue(SysConfConst.BUYER_FEE)));
 
         if (null == order.getId()) {
             this.save(order);
@@ -252,8 +252,8 @@ public class FcOrderManager {
         order.setPaytokenAddress(payToken.getAddress());
         order.setOrderType(2);
         order.setSells("0");
-        order.setSellFee(Integer.parseInt(this.systemConfigManager.getKeyValue(SysConfConstant.SELLER_FEE)));
-        order.setBuyFee(Integer.parseInt(this.systemConfigManager.getKeyValue(SysConfConstant.BUYER_FEE)));
+        order.setSellFee(Integer.parseInt(this.systemConfigManager.getKeyValue(SysConfConst.SELLER_FEE)));
+        order.setBuyFee(Integer.parseInt(this.systemConfigManager.getKeyValue(SysConfConst.BUYER_FEE)));
 
         if (null == order.getId()) {
             this.save(order);

@@ -1,6 +1,5 @@
 package com.fingerchar.admin.service.event;
 
-import com.fingerchar.core.constant.ContractType;
 import com.fingerchar.core.manager.FcContractNftManager;
 import com.fingerchar.core.util.DappEventUtils;
 import com.fingerchar.db.dto.TransferLog;

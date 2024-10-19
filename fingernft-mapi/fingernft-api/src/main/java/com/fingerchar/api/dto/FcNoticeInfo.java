@@ -1,7 +1,7 @@
 package com.fingerchar.api.dto;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fingerchar.core.constant.CommonStatus;
+import com.fingerchar.core.common.enums.CommonStatus;
 import com.fingerchar.db.domain.FcNotice;
 import com.fingerchar.db.domain.FcUser;
 

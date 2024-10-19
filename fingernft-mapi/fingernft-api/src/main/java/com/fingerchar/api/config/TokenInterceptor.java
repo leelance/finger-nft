@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fingerchar.api.utils.JwtHelper;
 import com.fingerchar.core.base.service.IBaseService;
 import com.fingerchar.core.config.properties.FingerProperties;
-import com.fingerchar.core.constant.SysConstant;
+import com.fingerchar.core.common.consts.SysConst;
 import com.fingerchar.core.util.ResponseUtil;
 import com.fingerchar.core.util.json.JsonUtils;
 import com.fingerchar.db.domain.FcUserToken;
@@ -34,7 +34,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 
   @Override
   public boolean preHandle(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) throws Exception {
-    String token = request.getHeader(SysConstant.WEB_TOKEN_NAME);
+    String token = request.getHeader(SysConst.WEB_TOKEN_NAME);
     if(log.isDebugEnabled()){
       log.debug("===>web token, {}, token：{}", request.getRequestURL(), token);
     }

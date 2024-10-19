@@ -3,8 +3,8 @@ package com.fingerchar.core.manager;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.fingerchar.core.base.service.IBaseService;
-import com.fingerchar.core.constant.CommonStatus;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.enums.CommonStatus;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.db.domain.FcOrder;
 import com.fingerchar.db.domain.FcOrderLog;
 import com.fingerchar.db.dto.ExchangeBuyLog;
@@ -126,9 +126,9 @@ public class FcOrderLogManager {
         Long time = Long.valueOf(log.getBlockTimestamp().toString());
         orderLog.setUpdateTime(time);
         orderLog.setCreateTime(time);
-        if(log.getTo().equalsIgnoreCase(SysConfConstant.ZERO_ADDRESS)){
+        if(log.getTo().equalsIgnoreCase(SysConfConst.ZERO_ADDRESS)){
             orderLog.setType(CommonStatus.BURN.getType());
-        }else if(log.getFrom().equalsIgnoreCase(SysConfConstant.ZERO_ADDRESS)){
+        }else if(log.getFrom().equalsIgnoreCase(SysConfConst.ZERO_ADDRESS)){
             orderLog.setType(CommonStatus.MINT.getType());
         }else{
             orderLog.setType(CommonStatus.TRANSFER.getType());

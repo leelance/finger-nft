@@ -2,7 +2,7 @@ package com.fingerchar.api.web;
 
 import com.fingerchar.api.service.FcNftCategoryService;
 import com.fingerchar.core.base.controller.BaseController;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.util.ResponseUtil;
 import com.fingerchar.db.domain.FcNftCategory;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(SysConfConstant.URL_PREFIX + "/category")
+@RequestMapping(SysConfConst.URL_PREFIX + "/category")
 public class FcCategoryController extends BaseController {
   private final FcNftCategoryService categoryService;
 

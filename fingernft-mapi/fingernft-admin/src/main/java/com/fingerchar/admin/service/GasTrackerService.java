@@ -1,7 +1,7 @@
 package com.fingerchar.admin.service;
 
 import com.alibaba.fastjson.JSON;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.manager.FcSystemConfigManager;
 import com.fingerchar.db.dto.GasTracker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +38,6 @@ public class GasTrackerService {
                 lastBlock
         );
         String value = JSON.toJSONString(gasTracker);
-        this.systemConfigManager.save(SysConfConstant.GAS_TRACKER, value);
+        this.systemConfigManager.save(SysConfConst.GAS_TRACKER, value);
     }
 }

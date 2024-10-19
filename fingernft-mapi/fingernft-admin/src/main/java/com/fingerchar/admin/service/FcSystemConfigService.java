@@ -2,8 +2,8 @@ package com.fingerchar.admin.service;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.fingerchar.core.constant.ContractType;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.enums.ContractType;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.manager.FcContractManager;
 import com.fingerchar.core.manager.FcSystemConfigManager;
 import com.fingerchar.core.util.DappWeb3jUtil;
@@ -45,30 +45,30 @@ public class FcSystemConfigService {
 				continue;
 			}
 			switch (item.getKeyName()){
-				case SysConfConstant.IPFS_URL:
+				case SysConfConst.IPFS_URL:
 					fetchVo.setIpfsUrl(item.getKeyValue());
 					break;
-				case SysConfConstant.SELLER_FEE:
+				case SysConfConst.SELLER_FEE:
 					fetchVo.setSellerFee(item.getKeyValue());
 					break;
-				case SysConfConstant.BUYER_FEE:
+				case SysConfConst.BUYER_FEE:
 					fetchVo.setBuyerFee(item.getKeyValue());
 					break;
-				case SysConfConstant.CDN_URL:
+				case SysConfConst.CDN_URL:
 					fetchVo.setCdnUrl(item.getKeyValue());
 					break;
-				case SysConfConstant.LOGIN_MESSAGE:
+				case SysConfConst.LOGIN_MESSAGE:
 					fetchVo.setLoginMessage(item.getKeyValue());
 					break;
-				case SysConfConstant.WEBSITE:
+				case SysConfConst.WEBSITE:
 					fetchVo.setWebsite(item.getKeyValue());
 					break;
-				case SysConfConstant.CONFIG_DEPLOY:
+				case SysConfConst.CONFIG_DEPLOY:
 					ConfigDeploy configDeploy = JSON.parseObject(item.getKeyValue(), ConfigDeploy.class);
 					String minerAddress = configDeploy.getMinerAddress();
 					fetchVo.setMiner(minerAddress);
 					break;
-				case SysConfConstant.CONFIG_NETWORK:
+				case SysConfConst.CONFIG_NETWORK:
 					ConfigNetwork configNetwork = JSON.parseObject(item.getKeyValue(), ConfigNetwork.class);
 					configNetwork.setRpc(null);
 					fetchVo.setNetwork(configNetwork);
@@ -112,9 +112,9 @@ public class FcSystemConfigService {
 			return value;
 		}
 		switch (key){
-			case SysConfConstant.CONFIG_DEPLOY:
+			case SysConfConst.CONFIG_DEPLOY:
 				return this.convertConfigDeployValue(value);
-			case SysConfConstant.CONFIG_CONTRACT:
+			case SysConfConst.CONFIG_CONTRACT:
 				this.processConfigContract(value);
 				break;
 		}

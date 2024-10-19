@@ -5,9 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fingerchar.core.base.service.IBaseService;
-import com.fingerchar.core.constant.CommonStatus;
-import com.fingerchar.core.constant.NoticeType;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.enums.CommonStatus;
+import com.fingerchar.core.common.enums.NoticeType;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.storage.BaseStorage;
 import com.fingerchar.core.util.DappWeb3jUtil;
 import com.fingerchar.db.base.BaseEntity;
@@ -142,7 +142,7 @@ public class FcContractNftManager {
     contractNft.setMetadataUrl(nft.getMetadataUrl());
     contractNft.setMetadataContent(nft.getMetadataContent());
 
-    String value = this.systemConfigManager.getKeyValue(SysConfConstant.NFT_DEFAULT_VERIFY);
+    String value = this.systemConfigManager.getKeyValue(SysConfConst.NFT_DEFAULT_VERIFY);
     if (value.equals("true")) {
       contractNft.setNftVerify(1);
     }
@@ -207,8 +207,8 @@ public class FcContractNftManager {
 
 
   public Integer transfer(TransferLog log) {
-    if (log.getFrom().equalsIgnoreCase(SysConfConstant.ZERO_ADDRESS) &&
-        log.getTo().equalsIgnoreCase(SysConfConstant.ZERO_ADDRESS)
+    if (log.getFrom().equalsIgnoreCase(SysConfConst.ZERO_ADDRESS) &&
+        log.getTo().equalsIgnoreCase(SysConfConst.ZERO_ADDRESS)
     ) {
       // from and to is zero address
       return 0;
@@ -221,7 +221,7 @@ public class FcContractNftManager {
     }
     FcContractNft nft = this.get(log.getAddress(), tokenId);
     if (null == nft) {
-      if (!log.getFrom().equalsIgnoreCase(SysConfConstant.ZERO_ADDRESS)) {
+      if (!log.getFrom().equalsIgnoreCase(SysConfConst.ZERO_ADDRESS)) {
         return 0;
       }
       // mint transfer
@@ -231,7 +231,7 @@ public class FcContractNftManager {
       nft.setIsSync(true);
     }
 
-    if (log.getTo().equalsIgnoreCase(SysConfConstant.ZERO_ADDRESS)) {
+    if (log.getTo().equalsIgnoreCase(SysConfConst.ZERO_ADDRESS)) {
       // burn transfer
       nft.setDeleted(true);
     }
@@ -241,7 +241,7 @@ public class FcContractNftManager {
     Integer noticeType = NoticeType.TRADE.getType();
     ;
     Integer transferType = CommonStatus.TRANSFER.getType();
-    if (!log.getFrom().equalsIgnoreCase(SysConfConstant.ZERO_ADDRESS)) {
+    if (!log.getFrom().equalsIgnoreCase(SysConfConst.ZERO_ADDRESS)) {
       nftItems = this.nftItemsManager.get(log.getAddress(), tokenId, log.getFrom());
       nftItems.setDeleted(true);
       this.nftItemsManager.update(nftItems);
@@ -249,7 +249,7 @@ public class FcContractNftManager {
       noticeManager.add(content, log.getFrom(), transferType, noticeType, log.getFrom());
     }
 
-    if (!log.getTo().equalsIgnoreCase(SysConfConstant.ZERO_ADDRESS)) {
+    if (!log.getTo().equalsIgnoreCase(SysConfConst.ZERO_ADDRESS)) {
       nftItems = this.nftItemsManager.get(log.getAddress(), tokenId, log.getTo());
       if (null == nftItems) {
         nftItems = new FcNftItems();
@@ -313,7 +313,7 @@ public class FcContractNftManager {
     nft.setIsSync(true);
     nft.setTxHash(log.getTxHash());
 
-    String value = this.systemConfigManager.getKeyValue(SysConfConstant.NFT_DEFAULT_VERIFY);
+    String value = this.systemConfigManager.getKeyValue(SysConfConst.NFT_DEFAULT_VERIFY);
     if (value.equals("true")) {
       nft.setNftVerify(1);
     }

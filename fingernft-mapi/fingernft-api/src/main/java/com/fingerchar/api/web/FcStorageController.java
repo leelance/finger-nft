@@ -3,7 +3,7 @@ package com.fingerchar.api.web;
 import com.fingerchar.api.service.FcStorageService;
 import com.fingerchar.api.service.StorageService;
 import com.fingerchar.core.base.controller.BaseController;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.util.ResponseUtil;
 import com.fingerchar.db.domain.FcStorage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.util.List;
  * 对象存储服务
  */
 @RestController
-@RequestMapping(SysConfConstant.URL_PREFIX + "/storage")
+@RequestMapping(SysConfConst.URL_PREFIX + "/storage")
 public class FcStorageController extends BaseController {
 
   @Autowired

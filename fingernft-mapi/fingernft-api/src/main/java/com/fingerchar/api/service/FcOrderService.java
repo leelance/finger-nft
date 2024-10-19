@@ -2,10 +2,10 @@ package com.fingerchar.api.service;
 
 import com.fingerchar.api.utils.DappCryptoUtil;
 import com.fingerchar.core.base.service.IBaseService;
-import com.fingerchar.core.constant.CommonStatus;
-import com.fingerchar.core.constant.ContractType;
-import com.fingerchar.core.constant.OrderStatus;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.enums.CommonStatus;
+import com.fingerchar.core.common.enums.ContractType;
+import com.fingerchar.core.common.enums.OrderStatus;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.manager.*;
 import com.fingerchar.core.util.ResponseUtil;
 import com.fingerchar.db.domain.*;
@@ -167,7 +167,7 @@ public class FcOrderService{
 
 
     public Object prepareOrder(PrepareOrderInfo info, FcUser user) {
-        String sellFee = this.systemConfigManager.getKeyValue(SysConfConstant.SELLER_FEE);
+        String sellFee = this.systemConfigManager.getKeyValue(SysConfConst.SELLER_FEE);
         if (null == sellFee) {
             return ResponseUtil.fail(-1, "unset sellFee");
         }

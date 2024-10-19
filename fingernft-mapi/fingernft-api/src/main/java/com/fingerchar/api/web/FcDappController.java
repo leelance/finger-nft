@@ -3,7 +3,7 @@ package com.fingerchar.api.web;
 import com.fingerchar.api.service.FcContractService;
 import com.fingerchar.api.service.FcUserService;
 import com.fingerchar.core.base.controller.BaseController;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.manager.FcSystemConfigManager;
 import com.fingerchar.core.util.ResponseUtil;
 import com.fingerchar.db.domain.FcUser;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(SysConfConstant.URL_PREFIX + "/dapp")
+@RequestMapping(SysConfConst.URL_PREFIX + "/dapp")
 public class FcDAppController extends BaseController {
   private final FcContractService contractService;
   private final FcUserService userService;

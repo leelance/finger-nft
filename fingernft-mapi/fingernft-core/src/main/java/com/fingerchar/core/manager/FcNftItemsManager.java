@@ -3,9 +3,8 @@ package com.fingerchar.core.manager;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fingerchar.core.base.service.IBaseService;
-import com.fingerchar.core.constant.CommonStatus;
-import com.fingerchar.core.constant.NoticeType;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.enums.CommonStatus;
+import com.fingerchar.core.common.enums.NoticeType;
 import com.fingerchar.db.dao.ext.FcNftItemsExtMapper;
 import com.fingerchar.db.domain.FcContractNft;
 import com.fingerchar.db.domain.FcNftItems;
@@ -21,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 

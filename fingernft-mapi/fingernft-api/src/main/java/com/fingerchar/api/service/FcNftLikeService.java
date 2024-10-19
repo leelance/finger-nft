@@ -2,8 +2,8 @@ package com.fingerchar.api.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fingerchar.core.base.service.IBaseService;
-import com.fingerchar.core.constant.CommonStatus;
-import com.fingerchar.core.constant.NoticeType;
+import com.fingerchar.core.common.enums.CommonStatus;
+import com.fingerchar.core.common.enums.NoticeType;
 import com.fingerchar.core.manager.FcContractNftManager;
 import com.fingerchar.core.manager.FcNftLikeManager;
 import com.fingerchar.core.manager.FcNoticeManager;

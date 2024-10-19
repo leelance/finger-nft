@@ -1,4 +1,4 @@
-package com.fingerchar.core.constant;
+package com.fingerchar.core.common.enums;
 
 public enum ContractType {
 

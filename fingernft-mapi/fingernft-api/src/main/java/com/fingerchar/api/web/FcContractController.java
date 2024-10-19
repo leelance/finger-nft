@@ -8,7 +8,7 @@ import com.fingerchar.api.service.FcNftItemsService;
 import com.fingerchar.api.service.FcUserService;
 import com.fingerchar.core.base.controller.BaseController;
 import com.fingerchar.core.base.service.IBaseService;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.manager.FcSystemConfigManager;
 import com.fingerchar.core.util.ResponseUtil;
 import com.fingerchar.db.domain.FcContract;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(SysConfConstant.URL_PREFIX + "/contract")
+@RequestMapping(SysConfConst.URL_PREFIX + "/contract")
 public class FcContractController extends BaseController {
 
   @Autowired
@@ -57,7 +57,7 @@ public class FcContractController extends BaseController {
     if (StringUtils.isEmpty(contract.getSigner())) {
       return ResponseUtil.fail(-1, "Signer is empty");
     }
-    if (!this.systemConfigManager.getKeyValue(SysConfConstant.WEBSITE).equals(contract.getSigner())) {
+    if (!this.systemConfigManager.getKeyValue(SysConfConst.WEBSITE).equals(contract.getSigner())) {
       return ResponseUtil.fail(-1, "Invalid Signer");
     }
 

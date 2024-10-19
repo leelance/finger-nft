@@ -1,6 +1,6 @@
 package com.fingerchar.core.config.properties;
 
-import com.fingerchar.core.config.enums.StorageTypeEnum;
+import com.fingerchar.core.common.enums.StorageTypeEnum;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

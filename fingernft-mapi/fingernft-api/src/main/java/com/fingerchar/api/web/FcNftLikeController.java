@@ -4,7 +4,7 @@ import com.fingerchar.api.service.FcContractNftService;
 import com.fingerchar.api.service.FcNftLikeService;
 import com.fingerchar.api.service.FcUserService;
 import com.fingerchar.core.base.controller.BaseController;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.util.ResponseUtil;
 import com.fingerchar.db.domain.FcUser;
 import com.fingerchar.db.vo.NftParamVO;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(SysConfConstant.URL_PREFIX + "/like")
+@RequestMapping(SysConfConst.URL_PREFIX + "/like")
 public class FcNftLikeController extends BaseController {
 
 	@Autowired

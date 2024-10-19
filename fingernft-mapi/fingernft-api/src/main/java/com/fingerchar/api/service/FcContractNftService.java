@@ -9,9 +9,8 @@ import com.fingerchar.api.utils.DappWeb3jUtil;
 import com.fingerchar.api.vo.ERCTokenInfo;
 import com.fingerchar.api.vo.HomeIndexParamsVO;
 import com.fingerchar.core.base.service.IBaseService;
-import com.fingerchar.core.constant.CommonStatus;
-import com.fingerchar.core.constant.ContractType;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.enums.CommonStatus;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.manager.*;
 import com.fingerchar.core.util.ListUtils;
 import com.fingerchar.core.util.ResponseUtil;
@@ -114,7 +113,7 @@ public class FcContractNftService {
             storage = this.baseService.getById(FcStorage.class, nft.getAnimStorageId());
             map.put("animation_url", storage.getIpfsHash() + "/" + storage.getKey());
         }
-        String website = this.systemConfigManager.getKeyValue(SysConfConstant.WEBSITE);
+        String website = this.systemConfigManager.getKeyValue(SysConfConst.WEBSITE);
 
         map.put("external_url", website + "/detail/" + nft.getAddress() + ":" + nft.getTokenId());
         if (StringUtils.isEmpty(nft.getProperties())) {

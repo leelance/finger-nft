@@ -1,7 +1,7 @@
 package com.fingerchar.core.base.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fingerchar.core.constant.SysConstant;
+import com.fingerchar.core.common.consts.SysConst;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ public class BaseController {
   protected HttpSession session;
 
   private Long getPageNum() {
-    String page = request.getParameter(SysConstant.PAGE);
+    String page = request.getParameter(SysConst.PAGE);
     if (null == page) {
       return 1L;
     } else {
@@ -36,7 +36,7 @@ public class BaseController {
   }
 
   private Long getPageSize() {
-    String limit = request.getParameter(SysConstant.LIMIT);
+    String limit = request.getParameter(SysConst.LIMIT);
     if (null == limit) {
       return 10L;
     } else {

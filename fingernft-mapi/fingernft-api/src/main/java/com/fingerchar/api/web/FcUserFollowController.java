@@ -4,7 +4,7 @@ import com.fingerchar.api.service.FcUserFollowService;
 import com.fingerchar.api.service.FcUserService;
 import com.fingerchar.api.utils.DappWeb3jUtil;
 import com.fingerchar.core.base.controller.BaseController;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.util.ResponseUtil;
 import com.fingerchar.core.util.Str2ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(SysConfConstant.URL_PREFIX + "/follow")
+@RequestMapping(SysConfConst.URL_PREFIX + "/follow")
 public class FcUserFollowController extends BaseController {
 
 	@Autowired

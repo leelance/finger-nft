@@ -3,11 +3,11 @@ package com.fingerchar.admin.task;
 import com.fingerchar.admin.service.GasTrackerService;
 import com.fingerchar.admin.service.event.EventService;
 import com.fingerchar.admin.vo.AllLogsVo;
-import com.fingerchar.core.constant.SysConfConstant;
-import com.fingerchar.core.exception.ServiceException;
+import com.fingerchar.core.common.consts.SysConfConst;
+import com.fingerchar.core.common.exception.ServiceException;
 import com.fingerchar.core.manager.FcSystemConfigManager;
 import com.fingerchar.core.manager.FcTxOrderManager;
-import com.fingerchar.core.result.ResultCode;
+import com.fingerchar.core.common.result.ResultCode;
 import com.fingerchar.core.util.DappWeb3jUtil;
 import com.fingerchar.core.util.StringConst;
 import com.fingerchar.db.domain.FcTxOrder;
@@ -57,14 +57,14 @@ public class ScheduleTask {
     }
 
     try {
-      String startStr = this.systemConfigManager.getKeyValue(SysConfConstant.LAST_BLOCK);
+      String startStr = this.systemConfigManager.getKeyValue(SysConfConst.LAST_BLOCK);
       if (null == startStr) {
         //have no config last_block
         throw ServiceException.of(ResultCode.SYS_CFG_LAST_BLK_ERR);
       }
       //start
       BigInteger start = new BigInteger(startStr);
-      String blockConfirmation = this.systemConfigManager.getKeyValue(SysConfConstant.BLOCK_CONFIRMATION);
+      String blockConfirmation = this.systemConfigManager.getKeyValue(SysConfConst.BLOCK_CONFIRMATION);
       start = start.add(BigInteger.ONE);
       //web3j 获取最新区块
       BigInteger end = DappWeb3jUtil.getLastBlock().subtract(new BigInteger(blockConfirmation));
@@ -73,7 +73,7 @@ public class ScheduleTask {
         return;
       }
 
-      long maxBlockOneTime = Long.parseLong(this.systemConfigManager.getKeyValue(SysConfConstant.MAX_BLOCK_ONE_TIME));
+      long maxBlockOneTime = Long.parseLong(this.systemConfigManager.getKeyValue(SysConfConst.MAX_BLOCK_ONE_TIME));
       if (end.subtract(start).longValue() > maxBlockOneTime) {
         end = start.add(BigInteger.valueOf(maxBlockOneTime));
       }

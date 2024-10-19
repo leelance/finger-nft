@@ -5,7 +5,7 @@ import com.fingerchar.api.service.FcContractNftService;
 import com.fingerchar.api.service.FcUserService;
 import com.fingerchar.api.vo.HomeIndexParamsVO;
 import com.fingerchar.core.base.controller.BaseController;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.util.ResponseUtil;
 import com.fingerchar.db.domain.FcUser;
 import com.fingerchar.db.vo.NftInfoVo;
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(SysConfConstant.URL_PREFIX + "/home")
+@RequestMapping(SysConfConst.URL_PREFIX + "/home")
 public class FcHomeController extends BaseController {
   private final FcContractNftService contractNftService;
   private final FcUserService userService;

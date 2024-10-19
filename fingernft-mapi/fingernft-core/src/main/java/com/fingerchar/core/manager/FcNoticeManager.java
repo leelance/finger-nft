@@ -1,28 +1,16 @@
 package com.fingerchar.core.manager;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.fingerchar.core.base.service.IBaseService;
-import com.fingerchar.core.constant.CommonStatus;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.db.domain.*;
-import com.fingerchar.db.dto.*;
-import com.fingerchar.db.vo.UserBaseInfoVo;
-import com.fingerchar.db.vo.notice.ContractVo;
-import com.fingerchar.db.vo.notice.NftInfoVo;
-import com.fingerchar.db.vo.notice.NoticeContentVo;
-import com.fingerchar.db.vo.notice.NoticeInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * @Author： Zjm
@@ -67,7 +55,7 @@ public class FcNoticeManager {
     }
 
     public Integer add(String content, String owner, Integer type, Integer noticeType, String operator){
-        if(owner.equalsIgnoreCase(SysConfConstant.ZERO_ADDRESS)){
+        if(owner.equalsIgnoreCase(SysConfConst.ZERO_ADDRESS)){
             return 0;
         }
         FcNotice notice = new FcNotice();

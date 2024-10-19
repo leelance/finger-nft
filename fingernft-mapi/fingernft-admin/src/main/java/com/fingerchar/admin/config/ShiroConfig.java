@@ -1,7 +1,7 @@
 package com.fingerchar.admin.config;
 
-import com.fingerchar.admin.shiro.AdminAuthorizingRealm;
-import com.fingerchar.admin.shiro.AdminWebSessionManager;
+import com.fingerchar.admin.config.shiro.AdminAuthorizingRealm;
+import com.fingerchar.admin.config.shiro.AdminWebSessionManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.session.mgt.SessionManager;

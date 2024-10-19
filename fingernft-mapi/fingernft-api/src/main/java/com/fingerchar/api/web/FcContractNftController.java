@@ -6,7 +6,7 @@ import com.fingerchar.api.service.FcContractNftService;
 import com.fingerchar.api.service.FcContractService;
 import com.fingerchar.api.service.FcUserService;
 import com.fingerchar.core.base.controller.BaseController;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.manager.FcSystemConfigManager;
 import com.fingerchar.core.util.ResponseUtil;
 import com.fingerchar.core.util.json.JsonUtils;
@@ -38,7 +38,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(SysConfConstant.URL_PREFIX + "/nft")
+@RequestMapping(SysConfConst.URL_PREFIX + "/nft")
 public class FcContractNftController extends BaseController {
   private final FcContractNftService contractNftService;
   private final FcContractService contractService;
@@ -85,7 +85,7 @@ public class FcContractNftController extends BaseController {
     nft.setContractId(contract.getId());
     nft.setCreator(user.getAddress());
 
-    String temp = this.systemConfigManager.getKeyValue(SysConfConstant.NFT_DEFAULT_VERIFY);
+    String temp = this.systemConfigManager.getKeyValue(SysConfConst.NFT_DEFAULT_VERIFY);
     if (!StringUtils.isEmpty(temp) || "true".equals(temp)) {
       nft.setNftVerify(1);
     } else {

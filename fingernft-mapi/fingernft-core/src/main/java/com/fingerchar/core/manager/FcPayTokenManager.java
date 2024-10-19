@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.fingerchar.core.base.service.IBaseService;
-import com.fingerchar.core.constant.ContractType;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.enums.ContractType;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.util.DappWeb3jUtil;
 import com.fingerchar.db.base.BaseEntity;
 import com.fingerchar.db.domain.FcPayToken;
@@ -37,18 +37,18 @@ public class FcPayTokenManager {
   public FcPayToken getPayTokenInfo(FcPayToken payToken) {
     if (payToken.getType().equals(ContractType.ETH.getType())) {
       // paytoken type == mainnet coin
-      String ConfigNetwork = this.systemConfigManager.getKeyValue(SysConfConstant.CONFIG_NETWORK);
+      String ConfigNetwork = this.systemConfigManager.getKeyValue(SysConfConst.CONFIG_NETWORK);
       payToken.setDecimals(18);
       if (ConfigNetwork.isEmpty()) {
         payToken.setName("ETH");
         payToken.setSymbol("ETH");
-        payToken.setAddress(SysConfConstant.ZERO_ADDRESS);
+        payToken.setAddress(SysConfConst.ZERO_ADDRESS);
       } else {
         Map<String, Object> networkMap = JSON.parseObject(ConfigNetwork);
         String symbol = (String) networkMap.get("symbol");
         payToken.setName(symbol);
         payToken.setSymbol(symbol);
-        payToken.setAddress(SysConfConstant.ZERO_ADDRESS);
+        payToken.setAddress(SysConfConst.ZERO_ADDRESS);
       }
       return payToken;
     }

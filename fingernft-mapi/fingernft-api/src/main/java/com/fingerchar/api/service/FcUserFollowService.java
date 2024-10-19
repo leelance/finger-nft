@@ -2,8 +2,8 @@ package com.fingerchar.api.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fingerchar.core.constant.CommonStatus;
-import com.fingerchar.core.constant.NoticeType;
+import com.fingerchar.core.common.enums.CommonStatus;
+import com.fingerchar.core.common.enums.NoticeType;
 import com.fingerchar.core.manager.FcNoticeManager;
 import com.fingerchar.core.manager.FcUserFollowManager;
 import com.fingerchar.core.manager.FcUserManager;

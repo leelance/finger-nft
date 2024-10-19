@@ -1,6 +1,6 @@
 package com.fingerchar.core.util;
 
-import com.fingerchar.core.config.enums.FileTypeEnum;
+import com.fingerchar.core.common.enums.FileTypeEnum;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;

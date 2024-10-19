@@ -1,19 +1,17 @@
 package com.fingerchar.api.service;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fingerchar.core.base.service.IBaseService;
-import com.fingerchar.core.constant.CommonStatus;
+import com.fingerchar.core.common.enums.CommonStatus;
 import com.fingerchar.core.manager.FcContractManager;
 import com.fingerchar.core.manager.FcContractNftManager;
 import com.fingerchar.core.manager.FcNoticeManager;
 import com.fingerchar.core.manager.FcUserManager;
 import com.fingerchar.core.util.ResponseUtil;
 import com.fingerchar.db.base.BaseEntity;
-import com.fingerchar.db.domain.FcContract;
 import com.fingerchar.db.domain.FcContractNft;
 import com.fingerchar.db.domain.FcNotice;
 import com.fingerchar.db.domain.FcUser;
@@ -22,7 +20,6 @@ import com.fingerchar.db.dto.ExchangeCancelLog;
 import com.fingerchar.db.dto.PrepareOrderInfo;
 import com.fingerchar.db.dto.TransferLog;
 import com.fingerchar.db.vo.UserBaseInfoVo;
-import com.fingerchar.db.vo.notice.ContractVo;
 import com.fingerchar.db.vo.notice.NftInfoVo;
 import com.fingerchar.db.vo.notice.NoticeContentVo;
 import com.fingerchar.db.vo.notice.NoticeInfoVo;

@@ -1,6 +1,6 @@
-package com.fingerchar.core.exception;
+package com.fingerchar.core.common.exception;
 
-import com.fingerchar.core.result.IResultCode;
+import com.fingerchar.core.common.result.IResultCode;
 import lombok.Getter;
 
 /**

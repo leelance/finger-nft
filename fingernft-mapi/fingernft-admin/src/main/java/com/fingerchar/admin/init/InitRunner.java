@@ -1,6 +1,6 @@
 package com.fingerchar.admin.init;
 
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.manager.FcSystemConfigManager;
 import com.fingerchar.core.util.DappWeb3jUtil;
 import com.fingerchar.core.util.json.JsonUtils;
@@ -31,7 +31,7 @@ public class InitRunner implements CommandLineRunner {
 
   private void initWeb3j() {
     log.info("===>init web3j start");
-    String value = this.systemConfigManager.getKeyValue(SysConfConstant.CONFIG_NETWORK);
+    String value = this.systemConfigManager.getKeyValue(SysConfConst.CONFIG_NETWORK);
     if (null == value || value.isEmpty()) {
       return;
     }

@@ -1,4 +1,4 @@
-package com.fingerchar.core.config.enums;
+package com.fingerchar.core.common.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

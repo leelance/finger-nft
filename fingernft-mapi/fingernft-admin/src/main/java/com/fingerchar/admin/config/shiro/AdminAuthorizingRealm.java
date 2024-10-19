@@ -1,4 +1,4 @@
-package com.fingerchar.admin.shiro;
+package com.fingerchar.admin.config.shiro;
 
 
 import com.alibaba.fastjson.JSON;

@@ -1,7 +1,7 @@
 package com.fingerchar.api.service;
 
 import com.fingerchar.api.vo.ConfigFetchVo;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.manager.FcSystemConfigManager;
 import com.fingerchar.core.util.json.JsonUtils;
 import com.fingerchar.db.domain.FcSystem;
@@ -39,35 +39,35 @@ public class FcSystemConfigService {
         continue;
       }
       switch (item.getKeyName()) {
-        case SysConfConstant.IPFS_URL:
+        case SysConfConst.IPFS_URL:
           fetchVo.setIpfsUrl(item.getKeyValue());
           break;
-        case SysConfConstant.SELLER_FEE:
+        case SysConfConst.SELLER_FEE:
           fetchVo.setSellerFee(item.getKeyValue());
           break;
-        case SysConfConstant.BUYER_FEE:
+        case SysConfConst.BUYER_FEE:
           fetchVo.setBuyerFee(item.getKeyValue());
           break;
-        case SysConfConstant.CDN_URL:
+        case SysConfConst.CDN_URL:
           fetchVo.setCdnUrl(item.getKeyValue());
           break;
-        case SysConfConstant.LOGIN_MESSAGE:
+        case SysConfConst.LOGIN_MESSAGE:
           fetchVo.setLoginMessage(item.getKeyValue());
           break;
-        case SysConfConstant.WEBSITE:
+        case SysConfConst.WEBSITE:
           fetchVo.setWebsite(item.getKeyValue());
           break;
-        case SysConfConstant.CONFIG_DEPLOY:
+        case SysConfConst.CONFIG_DEPLOY:
           ConfigDeploy configDeploy = JsonUtils.parseObject(item.getKeyValue(), ConfigDeploy.class);
           String minerAddress = configDeploy.getMinerAddress();
           fetchVo.setMiner(minerAddress);
           break;
-        case SysConfConstant.CONFIG_NETWORK:
+        case SysConfConst.CONFIG_NETWORK:
           ConfigNetwork configNetwork = JsonUtils.parseObject(item.getKeyValue(), ConfigNetwork.class);
           configNetwork.setRpc(null);
           fetchVo.setNetwork(configNetwork);
           break;
-        case SysConfConstant.CONFIG_CONTRACT:
+        case SysConfConst.CONFIG_CONTRACT:
           ConfigContract configContract = JsonUtils.parseObject(item.getKeyValue(), ConfigContract.class);
           configContract.setExchangeOrdersHolderAddress(null);
           configContract.setExchangeStateAddress(null);
@@ -87,7 +87,7 @@ public class FcSystemConfigService {
 
 
   public GasTracker gasTracker() {
-    String value = this.systemConfigManager.getKeyValue(SysConfConstant.GAS_TRACKER);
+    String value = this.systemConfigManager.getKeyValue(SysConfConst.GAS_TRACKER);
     if (StringUtils.isEmpty(value)) {
       return null;
     }

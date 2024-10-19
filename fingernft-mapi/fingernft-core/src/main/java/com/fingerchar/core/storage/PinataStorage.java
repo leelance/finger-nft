@@ -1,10 +1,10 @@
 package com.fingerchar.core.storage;
 
-import com.fingerchar.core.config.enums.FileTypeEnum;
+import com.fingerchar.core.common.enums.FileTypeEnum;
 import com.fingerchar.core.config.properties.PinataProperties;
 import com.fingerchar.core.config.properties.StorageProperties;
-import com.fingerchar.core.exception.ServiceException;
-import com.fingerchar.core.result.ResultCode;
+import com.fingerchar.core.common.exception.ServiceException;
+import com.fingerchar.core.common.result.ResultCode;
 import com.fingerchar.core.storage.helper.StorageHelper;
 import com.fingerchar.core.storage.pinata.PinFileToIpfsDto;
 import com.fingerchar.core.storage.pinata.PinataHelper;

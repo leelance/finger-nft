@@ -2,7 +2,7 @@ package com.fingerchar.core.storage;
 
 
 import com.fingerchar.core.config.properties.StorageProperties;
-import com.fingerchar.core.exception.ServiceException;
+import com.fingerchar.core.common.exception.ServiceException;
 import com.fingerchar.core.util.StringConst;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;

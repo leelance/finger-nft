@@ -1,4 +1,4 @@
-package com.fingerchar.core.exception;
+package com.fingerchar.core.common.exception;
 
 import lombok.Getter;
 

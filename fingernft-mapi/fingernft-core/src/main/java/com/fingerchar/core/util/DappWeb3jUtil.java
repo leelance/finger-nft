@@ -2,10 +2,9 @@ package com.fingerchar.core.util;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.fingerchar.core.exception.ServiceException;
-import com.fingerchar.core.result.ResultCode;
+import com.fingerchar.core.common.exception.ServiceException;
+import com.fingerchar.core.common.result.ResultCode;
 import com.fingerchar.core.storage.BaseStorage;
-import com.fingerchar.core.storage.IpfsStorage;
 import com.fingerchar.core.util.contract.ERC20;
 import com.fingerchar.core.util.contract.ERC721;
 import com.fingerchar.db.vo.ERCTokenInfo;

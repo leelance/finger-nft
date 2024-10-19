@@ -2,7 +2,7 @@ package com.fingerchar.core.manager;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.storage.BaseStorage;
 import com.fingerchar.core.storage.IpfsStorage;
 import com.fingerchar.core.util.CharUtil;
@@ -50,7 +50,7 @@ public class StorageManager {
       storage = this.storageManager.get(nft.getAnimStorageId());
       map.put("animation_url", storage.getIpfsHash() + "/" + storage.getKey());
     }
-    String website = this.systemConfigManager.getKeyValue(SysConfConstant.WEBSITE);
+    String website = this.systemConfigManager.getKeyValue(SysConfConst.WEBSITE);
 
     if (!StringUtils.isEmpty(nft.getTokenId())) {
       map.put("external_url", website + "/detail/" + nft.getAddress() + ":" + nft.getTokenId());

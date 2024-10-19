@@ -7,8 +7,8 @@ import com.fingerchar.api.utils.DappCryptoUtil;
 import com.fingerchar.api.utils.JwtHelper;
 import com.fingerchar.core.base.controller.BaseController;
 import com.fingerchar.core.config.properties.FingerProperties;
-import com.fingerchar.core.constant.SysConfConstant;
-import com.fingerchar.core.constant.SysConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
+import com.fingerchar.core.common.consts.SysConst;
 import com.fingerchar.core.manager.FcSystemConfigManager;
 import com.fingerchar.core.manager.FcUserFollowManager;
 import com.fingerchar.core.util.IpUtil;
@@ -38,7 +38,7 @@ import java.util.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(SysConfConstant.URL_PREFIX + "/user")
+@RequestMapping(SysConfConst.URL_PREFIX + "/user")
 public class FcUserController extends BaseController {
   private final FcUserLogService userLogService;
   private final FcUserService userService;
@@ -139,7 +139,7 @@ public class FcUserController extends BaseController {
   }
 
   private String getLoginMessage() {
-    return this.systemConfigManager.getKeyValue(SysConfConstant.LOGIN_MESSAGE);
+    return this.systemConfigManager.getKeyValue(SysConfConst.LOGIN_MESSAGE);
   }
 
   /**
@@ -147,7 +147,7 @@ public class FcUserController extends BaseController {
    */
   @PostMapping("reload")
   public Object reload() {
-    String token = request.getHeader(SysConstant.WEB_TOKEN_NAME);
+    String token = request.getHeader(SysConst.WEB_TOKEN_NAME);
 
     if (StringUtils.isEmpty(token) || StringUtils.isEmpty((JwtHelper.verifyTokenAndGetUserAddress(token, fingerProperties.getTokenSecret())))) {
       return ResponseUtil.fail(-1, "");

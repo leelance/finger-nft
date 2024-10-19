@@ -5,7 +5,7 @@ import com.fingerchar.api.service.FcOrderService;
 import com.fingerchar.api.service.FcUserService;
 import com.fingerchar.api.utils.DappCryptoUtil;
 import com.fingerchar.core.base.controller.BaseController;
-import com.fingerchar.core.constant.SysConfConstant;
+import com.fingerchar.core.common.consts.SysConfConst;
 import com.fingerchar.core.util.ResponseUtil;
 import com.fingerchar.db.domain.FcUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping(SysConfConstant.URL_PREFIX + "/order")
+@RequestMapping(SysConfConst.URL_PREFIX + "/order")
 public class FcOrderController extends BaseController {
 
 	@Autowired
