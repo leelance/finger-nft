@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.fingerchar.admin.annotation.RequiresPermissionsDesc;
 import com.fingerchar.admin.service.FcStorageService;
 import com.fingerchar.core.base.controller.BaseController;
-import com.fingerchar.core.manager.StorageManager;
+import com.fingerchar.core.manager.StorageExtManager;
 import com.fingerchar.core.util.ResponseUtil;
 import com.fingerchar.db.domain.FcStorage;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -29,7 +28,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/admin/storage")
 public class AdminStorageController extends BaseController {
-  private final StorageManager storageManager;
+  private final StorageExtManager storageExtManager;
   private final FcStorageService adminStorageService;
 
   @RequiresPermissions("admin:storage:list")
@@ -44,9 +43,9 @@ public class AdminStorageController extends BaseController {
   @RequiresPermissionsDesc(menu = {"系统管理", "对象存储"}, button = "上传")
   @RequiresAuthentication
   @PostMapping("/create")
-  public Object create(@RequestParam("file") MultipartFile file, String flag) throws IOException {
+  public Object create(@RequestParam("file") MultipartFile file) {
     String originalFilename = file.getOriginalFilename();
-    FcStorage fcAdminStorage = storageManager.store(file.getInputStream(), file.getSize(), file.getContentType(), originalFilename, flag);
+    FcStorage fcAdminStorage = storageExtManager.store(file, originalFilename);
     return ResponseUtil.ok(fcAdminStorage);
   }
 
@@ -56,19 +55,13 @@ public class AdminStorageController extends BaseController {
   public Object multiUpload(@RequestParam("files") MultipartFile[] files) throws IOException {
     int len = files.length;
     String[] fileNames = new String[len];
-    InputStream[] inputStreams = new InputStream[len];
-    Long[] contentLengths = new Long[len];
-    String[] contentTypes = new String[len];
     int i = 0;
     for (MultipartFile file : files) {
       fileNames[i] = file.getOriginalFilename();
-      inputStreams[i] = file.getInputStream();
-      contentLengths[i] = file.getSize();
-      contentTypes[i] = file.getContentType();
       i++;
     }
-    List<FcStorage> list = storageManager.store(inputStreams, contentLengths, contentTypes, fileNames);
-    if (null == list) {
+    List<FcStorage> list = storageExtManager.store(files, fileNames);
+    if (null == list || list.isEmpty()) {
       return ResponseUtil.fail();
     } else {
       return ResponseUtil.ok(list);
@@ -91,18 +84,18 @@ public class AdminStorageController extends BaseController {
   @RequiresPermissionsDesc(menu = {"系统管理", "对象存储"}, button = "编辑")
   @RequiresAuthentication
   @PostMapping("/update")
-  public Object update(FcStorage FcAdminStorage) {
-    if (adminStorageService.update(FcAdminStorage) == 0) {
+  public Object update(FcStorage fcAdminStorage) {
+    if (adminStorageService.update(fcAdminStorage) == 0) {
       return ResponseUtil.updatedDataFailed();
     }
-    return ResponseUtil.ok(FcAdminStorage);
+    return ResponseUtil.ok(fcAdminStorage);
   }
 
   @RequiresPermissions("admin:storage:delete")
   @RequiresPermissionsDesc(menu = {"系统管理", "对象存储"}, button = "删除")
   @PostMapping("/delete")
-  public Object delete(@RequestBody FcStorage FcAdminStorage) {
-    String key = FcAdminStorage.getKey();
+  public Object delete(@RequestBody FcStorage fcAdminStorage) {
+    String key = fcAdminStorage.getKey();
     if (StringUtils.isEmpty(key)) {
       return ResponseUtil.badArgument();
     }

@@ -108,11 +108,11 @@ public class FcContractNftService {
         FcStorage storage = this.baseService.getById(FcStorage.class, nft.getStorageId());
         if (StringUtils.isEmpty(nft.getAnimUrl())) {
             map.put("animation_url", "");
-            map.put("image", storage.getIpfshash());
+            map.put("image", storage.getIpfsHash());
         } else {
-            map.put("image", storage.getIpfshash() + "/" + storage.getKey());
+            map.put("image", storage.getIpfsHash() + "/" + storage.getKey());
             storage = this.baseService.getById(FcStorage.class, nft.getAnimStorageId());
-            map.put("animation_url", storage.getIpfshash() + "/" + storage.getKey());
+            map.put("animation_url", storage.getIpfsHash() + "/" + storage.getKey());
         }
         String website = this.systemConfigManager.getKeyValue(SysConfConstant.WEBSITE);
 
@@ -126,7 +126,7 @@ public class FcContractNftService {
         String metadata = JSON.toJSONString(map);
         InputStream is = new ByteArrayInputStream(metadata.getBytes());
         storage = this.storageService.store(is, metadata.getBytes().length, "application/json", nft.getName() + ".json");
-        nft.setMetadataUrl(storage.getIpfshash());
+        nft.setMetadataUrl(storage.getIpfsHash());
         nft.setMetadataContent(metadata);
         return nft;
     }

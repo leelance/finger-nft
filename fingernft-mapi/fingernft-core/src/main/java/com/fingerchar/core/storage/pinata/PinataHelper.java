@@ -42,12 +42,13 @@ public class PinataHelper {
   /**
    * 上传ipfs file 转  FcStorage
    *
-   * @param dto        PinFileToIpfsDto
-   * @param properties PinataProperties
-   * @param filename   filename
+   * @param dto         PinFileToIpfsDto
+   * @param properties  PinataProperties
+   * @param filename    filename
+   * @param newFilename 新文件名
    * @return FcStorage
    */
-  public static FcStorage pinFileToIpfs2Storage(PinFileToIpfsDto dto, PinataProperties properties, String filename) {
+  public static FcStorage pinFileToIpfs2Storage(PinFileToIpfsDto dto, PinataProperties properties, String filename, String newFilename) {
     if (Objects.isNull(dto)) {
       return null;
     }
@@ -55,6 +56,7 @@ public class PinataHelper {
     FcStorage storage = new FcStorage();
     storage.setExtId(StringConst.EMPTY);
     storage.setName(filename);
+    storage.setKey(newFilename);
     storage.setSize(dto.getPinSize());
     storage.setType(getMimeTypeFromFilename(filename));
     storage.setUrl(properties.getGatewayDomain() + "ipfs/" + dto.getIpfsHash());

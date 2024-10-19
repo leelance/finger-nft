@@ -1,5 +1,6 @@
 package com.fingerchar.core.storage;
 
+import com.fingerchar.core.config.enums.FileTypeEnum;
 import com.fingerchar.core.config.properties.PinataProperties;
 import com.fingerchar.core.config.properties.StorageProperties;
 import com.fingerchar.core.exception.ServiceException;
@@ -7,6 +8,7 @@ import com.fingerchar.core.result.ResultCode;
 import com.fingerchar.core.storage.helper.StorageHelper;
 import com.fingerchar.core.storage.pinata.PinFileToIpfsDto;
 import com.fingerchar.core.storage.pinata.PinataHelper;
+import com.fingerchar.core.util.FileExtUtils;
 import com.fingerchar.db.domain.FcStorage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -57,8 +59,9 @@ public class PinataStorage implements BaseStorage {
     }
 
     try {
+      String newFilename = FileExtUtils.rename(multipartFile.getOriginalFilename(), FileTypeEnum.PLAIN);
       Map<String, Object> pinataMetadata = new HashMap<>();
-      pinataMetadata.put("name", multipartFile.getName());
+      pinataMetadata.put("name", newFilename);
       Map<String, Object> pinataOptions = new HashMap<>();
       pinataOptions.put("cidVersion", 1);
 
@@ -76,7 +79,7 @@ public class PinataStorage implements BaseStorage {
         log.info("===>pinata upload file fail, code: {}, body: {}", response.getStatusCodeValue(), response.getBody());
         throw ServiceException.of(ResultCode.UPLOAD_FILE_ERR);
       }
-      return PinataHelper.pinFileToIpfs2Storage(response.getBody(), pinata, multipartFile.getName());
+      return PinataHelper.pinFileToIpfs2Storage(response.getBody(), pinata, multipartFile.getOriginalFilename(), newFilename);
     } finally {
       try {
         FileUtils.forceDeleteOnExit(file);
@@ -88,8 +91,10 @@ public class PinataStorage implements BaseStorage {
 
   @Override
   public FcStorage uploadJson2Ipfs(String jsonName, Map<String, Object> json) {
+    String newFilename = FileExtUtils.rename(jsonName, FileTypeEnum.JSON);
+
     Map<String, Object> pinataMetadata = new HashMap<>();
-    pinataMetadata.put("name", jsonName);
+    pinataMetadata.put("name", newFilename);
     Map<String, Object> pinataOptions = new HashMap<>();
     pinataOptions.put("cidVersion", 1);
 
@@ -105,7 +110,7 @@ public class PinataStorage implements BaseStorage {
       log.info("===>pinata upload json fail, code: {}, body: {}", response.getStatusCodeValue(), response.getBody());
       throw ServiceException.of(ResultCode.UPLOAD_FILE_ERR);
     }
-    return PinataHelper.pinFileToIpfs2Storage(response.getBody(), pinata, jsonName);
+    return PinataHelper.pinFileToIpfs2Storage(response.getBody(), pinata, jsonName, newFilename);
   }
 
   /**

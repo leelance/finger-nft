@@ -62,7 +62,7 @@ public class StorageService {
         storageInfo.setType(contentType);
         storageInfo.setKey(key);
         storageInfo.setUrl(this.storage.generateUrl(fileHash));
-        storageInfo.setIpfshash("ipfs://ipfs/" + fileHash.substring(0, fileHash.indexOf(".")));
+        storageInfo.setIpfsHash("ipfs://ipfs/" + fileHash.substring(0, fileHash.indexOf(".")));
         fcStorageService.add(storageInfo);
         return storageInfo;
       }
@@ -112,7 +112,7 @@ public class StorageService {
           storageInfo.setUrl(this.storage.generateUrl(hashFiles[i]));
           storageInfo.setCreateTime(System.currentTimeMillis() / 1000);
           storageInfo.setUpdateTime(System.currentTimeMillis() / 1000);
-          storageInfo.setIpfshash("ipfs://ipfs/" + hashFiles[i].substring(0, hashFiles[i].indexOf("/")));
+          storageInfo.setIpfsHash("ipfs://ipfs/" + hashFiles[i].substring(0, hashFiles[i].indexOf("/")));
           fcStorageService.add(storageInfo);
           list.add(storageInfo);
         }

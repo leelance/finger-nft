@@ -3,38 +3,51 @@ package com.fingerchar.core.manager;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fingerchar.core.base.service.IBaseService;
 import com.fingerchar.db.domain.FcStorage;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
- * @Author： Zjm
- * @Date：2022/3/27 16:32
+ * FcStorageManager
+ *
+ * @author admin
+ * @since 2024/10/19 12:30
  */
 @Service
+@RequiredArgsConstructor
 public class FcStorageManager {
-    @Autowired
-    IBaseService baseService;
+  private final IBaseService baseService;
 
-    public void add(FcStorage storageInfo) {
-        this.baseService.save(storageInfo);
-    }
+  public void add(FcStorage storageInfo) {
+    this.baseService.save(storageInfo);
+  }
 
-    public FcStorage findByKey(String key) {
-        QueryWrapper<FcStorage> wrapper = new QueryWrapper<>();
-        wrapper.eq(FcStorage.KEY, key);
-        return this.baseService.getByCondition(FcStorage.class, wrapper);
-    }
+  /**
+   * 批量保存storage
+   *
+   * @param list List<FcStorage>
+   */
+  public void batchSave(List<FcStorage> list) {
+    baseService.saveBatch(list);
+  }
 
-    public int update(FcStorage storageInfo) {
-        return this.baseService.update(storageInfo);
-    }
+  public FcStorage findByKey(String key) {
+    QueryWrapper<FcStorage> wrapper = new QueryWrapper<>();
+    wrapper.eq(FcStorage.KEY, key);
+    return this.baseService.getByCondition(FcStorage.class, wrapper);
+  }
 
-    public FcStorage get(Long id){
-        return this.baseService.getById(FcStorage.class, id);
-    }
+  public int update(FcStorage storageInfo) {
+    return this.baseService.update(storageInfo);
+  }
 
-    public FcStorage findById(Long id) {
-        return this.baseService.getById(FcStorage.class, id);
-    }
+  public FcStorage get(Long id) {
+    return this.baseService.getById(FcStorage.class, id);
+  }
+
+  public FcStorage findById(Long id) {
+    return this.baseService.getById(FcStorage.class, id);
+  }
 
 }

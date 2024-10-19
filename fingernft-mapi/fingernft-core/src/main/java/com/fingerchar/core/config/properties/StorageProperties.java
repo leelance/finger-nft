@@ -1,6 +1,8 @@
 package com.fingerchar.core.config.properties;
 
+import com.fingerchar.core.util.StringConst;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
@@ -48,5 +50,12 @@ public class StorageProperties {
      * <a href="https://127.0.0.1/apiDomain/333.json">文件访问路径中间段</a>
      */
     private String apiDomain;
+
+    public String getStoragePath() {
+      if (StringUtils.isNotBlank(storagePath) && !storagePath.endsWith(StringConst.SLASH)) {
+        storagePath = storagePath + StringConst.SLASH;
+      }
+      return storagePath;
+    }
   }
 }
