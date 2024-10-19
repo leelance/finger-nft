@@ -47,6 +47,7 @@ logging:
     com.fingerchar.admin: info
     com.fingerchar.db: debug
     com.fingerchar.core: info
+    org.springframework.web.client: debug
 
 com:
   finger:

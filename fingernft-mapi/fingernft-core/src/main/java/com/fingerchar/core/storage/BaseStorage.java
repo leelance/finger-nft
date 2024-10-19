@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -63,7 +64,18 @@ public interface BaseStorage {
    * @param multipartFile MultipartFile
    * @return FcStorage
    */
-  default FcStorage upload(MultipartFile multipartFile) {
+  default FcStorage uploadFile2Ipfs(MultipartFile multipartFile) {
+    return null;
+  }
+
+  /**
+   * 上传json数据到ipfs
+   *
+   * @param jsonName jsonName
+   * @param json     json
+   * @return FcStorage
+   */
+  default FcStorage uploadJson2Ipfs(String jsonName, Map<String, Object> json) {
     return null;
   }
 
